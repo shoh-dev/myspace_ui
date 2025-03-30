@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:myspace_core/myspace_core.dart';
@@ -13,12 +15,14 @@ class UIPage {
   final bool forceRebuild;
   final UIPageBuilder builder;
   final UIVmProvider vm;
+  final GoRouterRedirect? redirect;
 
   const UIPage({
     required this.name,
     required this.path,
     required this.builder,
     required this.vm,
+    this.redirect,
 
     ///enforces rebuild on each navigation
     this.forceRebuild = false,
@@ -31,6 +35,8 @@ class UIPage {
     return GoRoute(
       path: path,
       name: name,
+      redirect: redirect,
+      // onExit: (context, state) {}, //todo: can show do you want to exit dialog
       builder: (context, state) {
         return _Page(
           key: forceRebuild ? UniqueKey() : null,
