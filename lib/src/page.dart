@@ -25,6 +25,9 @@ class UIPage {
   });
 
   GoRoute toRoute() {
+    if (!path.startsWith("/")) {
+      throw Exception('Name: ($name), Path: ($path) must start with slash(/)');
+    }
     return GoRoute(
       path: path,
       name: name,
