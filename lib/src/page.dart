@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -38,20 +39,37 @@ class UIPage {
       redirect: redirect,
       // onExit: (context, state) {}, //todo: can show do you want to exit dialog
       builder: (context, state) {
+        final vm = this.vm(context);
         return _Page(
           key: forceRebuild ? UniqueKey() : null,
-          child: builder(context, state, vm(context)),
+          vm: vm,
+          child: builder(context, state, vm),
         );
       },
     );
   }
 }
 
-class _Page extends StatelessWidget {
-  const _Page({super.key, required this.child});
+class _Page extends StatefulWidget {
+  const _Page({super.key, required this.child, required this.vm});
 
   final Widget child;
+  final Vm vm;
 
   @override
-  Widget build(BuildContext context) => child;
+  State<_Page> createState() => _PageState();
+}
+
+class _PageState extends State<_Page> {
+  @override
+  void dispose() {
+    if (!widget.vm.isDisposed) {
+      widget.vm.dispose();
+      log('Disposed VM from _Page for ${widget.child}');
+    }
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) => widget.child;
 }
