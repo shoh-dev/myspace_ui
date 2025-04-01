@@ -37,15 +37,26 @@ class UIPage {
       path: path,
       name: name,
       redirect: redirect,
-      // onExit: (context, state) {}, //todo: can show do you want to exit dialog
-      builder: (context, state) {
+      pageBuilder: (context, state) {
         final vm = this.vm(context);
-        return _Page(
-          key: forceRebuild ? UniqueKey() : null,
-          vm: vm,
-          child: builder(context, state, vm),
+        return MaterialPage(
+          key: state.pageKey,
+          child: _Page(
+            key: forceRebuild ? UniqueKey() : null,
+            vm: vm,
+            child: builder(context, state, vm),
+          ),
         );
       },
+      // onExit: (context, state) {}, //todo: can show do you want to exit dialog
+      // builder: (context, state) {
+      // final vm = this.vm(context);
+      // return _Page(
+      // key: forceRebuild ? UniqueKey() : null,
+      // vm: vm,
+      // child: builder(context, state, vm),
+      // );
+      // },
     );
   }
 }

@@ -8,13 +8,16 @@ export 'layout.dart';
 class UIRoot {
   final List<UILayout> layouts;
   final GoRouterRedirect? redirect;
+  final Listenable? refreshListenable;
 
-  const UIRoot({required this.layouts, this.redirect});
+  const UIRoot({required this.layouts, this.redirect, this.refreshListenable});
 
   GoRouter toRouter() {
+    print('Running toRouter()');
     return GoRouter(
       debugLogDiagnostics: kDebugMode,
       redirect: redirect,
+      refreshListenable: refreshListenable,
       observers: [BotToastNavigatorObserver()],
       routes: [for (final layout in layouts) layout.toShellRoute()],
     );
