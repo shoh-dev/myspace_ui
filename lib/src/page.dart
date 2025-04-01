@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:myspace_core/myspace_core.dart';
+import 'package:myspace_ui/myspace_ui.dart';
 
 typedef UIPageBuilder =
     Widget Function(BuildContext context, GoRouterState state, Vm vm);
@@ -37,26 +38,42 @@ class UIPage {
       path: path,
       name: name,
       redirect: redirect,
-      pageBuilder: (context, state) {
-        final vm = this.vm(context);
-        return MaterialPage(
-          key: state.pageKey,
-          child: _Page(
-            key: forceRebuild ? UniqueKey() : null,
-            vm: vm,
-            child: builder(context, state, vm),
-          ),
+      // pageBuilder: (context, state) {
+      //   return MaterialPage(
+      //     key: state.pageKey,
+      //     child: _Page(
+      //       key: forceRebuild ? UniqueKey() : null,
+      //       vm: vm,
+      //                child: (vm) => builder(context, state, vm),
+      //     ),
+      //   );
+      // },
+      // onExit: (context, state) async {
+      //   return (await showDialog<bool>(
+      //         context: context,
+      //         builder: (context) {
+      //           return PromptDialog(
+      //             cancel: () {},
+      //             content: "Close",
+      //             onLeftClick: (_) {
+      //               Navigator.pop(context, false);
+      //             },
+      //             onRightClick: (_) {
+      //               Navigator.pop(context, true);
+      //             },
+      //           );
+      //         },
+      //       )) ??
+      //       false;
+      // }, //todo: can show do you want to exit dialog
+      builder: (context, state) {
+        // final vm = this.vm(context);
+        return _Page(
+          key: forceRebuild ? UniqueKey() : null,
+          vm: vm,
+          child: (vm) => builder(context, state, vm),
         );
       },
-      // onExit: (context, state) {}, //todo: can show do you want to exit dialog
-      // builder: (context, state) {
-      // final vm = this.vm(context);
-      // return _Page(
-      // key: forceRebuild ? UniqueKey() : null,
-      // vm: vm,
-      // child: builder(context, state, vm),
-      // );
-      // },
     );
   }
 }
@@ -64,23 +81,40 @@ class UIPage {
 class _Page extends StatefulWidget {
   const _Page({super.key, required this.child, required this.vm});
 
-  final Widget child;
-  final Vm vm;
+  final Widget Function(Vm vm) child;
+  final UIVmProvider vm;
 
   @override
   State<_Page> createState() => _PageState();
 }
 
 class _PageState extends State<_Page> {
+  late final Vm vm;
+  bool isVmLoaded = false;
+
   @override
   void dispose() {
-    if (!widget.vm.isDisposed) {
-      widget.vm.dispose();
-      log('Disposed VM from _Page for ${widget.child}');
+    if (isVmLoaded) {
+      if (!vm.isDisposed) {
+        vm.dispose();
+        log('Disposed VM from _Page');
+      }
     }
     super.dispose();
   }
 
   @override
-  Widget build(BuildContext context) => widget.child;
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      vm = widget.vm(context);
+      setState(() {
+        isVmLoaded = true;
+      });
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) =>
+      isVmLoaded ? widget.child(vm) : const SizedBox.shrink();
 }
