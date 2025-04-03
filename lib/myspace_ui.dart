@@ -5,3 +5,4 @@ export 'src/dialogs/loading.dart';
 export 'src/dialogs/info.dart';
 export 'src/dialogs/success.dart';
 export 'src/dialogs/prompt.dart';
+export 'src/utils.dart';
