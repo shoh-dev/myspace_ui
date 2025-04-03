@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/foundation.dart';
 import 'package:go_router/go_router.dart';
@@ -13,7 +15,7 @@ class UIRoot {
   const UIRoot({required this.layouts, this.redirect, this.refreshListenable});
 
   GoRouter toRouter() {
-    print('Running toRouter()');
+    log('Running toRouter()');
     return GoRouter(
       debugLogDiagnostics: kDebugMode,
       redirect: redirect,

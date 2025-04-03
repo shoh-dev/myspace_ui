@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:myspace_ui/src/page.dart';
@@ -17,11 +15,13 @@ class UILayout {
   final UILayoutBuilder layoutBuilder;
   final GoRouterRedirect? redirect;
   final List<List<UIPage>> pages;
+  final UIVmProvider? vm;
 
   const UILayout({
     required this.layoutBuilder,
     required this.pages,
     this.redirect,
+    this.vm,
   });
 
   StatefulShellRoute toShellRoute() {
