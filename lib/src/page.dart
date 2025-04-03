@@ -99,10 +99,10 @@ class _PageState extends State<_Page> {
       //           return PromptDialog(
       //             cancel: () {},
       //             content: "Close",
-      //             onLeftClick: (_) {
+      //             onLeftClick: () {
       //               Navigator.pop(context, false);
       //             },
-      //             onRightClick: (_) {
+      //             onRightClick: () {
       //               Navigator.pop(context, true);
       //             },
       //           );

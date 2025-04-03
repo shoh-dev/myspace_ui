@@ -2,10 +2,9 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 
 class LoadingDialog extends StatelessWidget {
-  const LoadingDialog({super.key, this.title, required this.cancel});
+  const LoadingDialog({super.key, this.title});
 
   final String? title;
-  final CancelFunc cancel;
 
   @override
   Widget build(BuildContext context) {
@@ -24,8 +23,7 @@ class LoadingDialog extends StatelessWidget {
       clickClose: dismissable,
       allowClick: false,
       backButtonBehavior: BackButtonBehavior.ignore,
-      toastBuilder:
-          (cancelFunc) => LoadingDialog(title: title, cancel: cancelFunc),
+      toastBuilder: (cancelFunc) => LoadingDialog(title: title),
     );
   }
 }

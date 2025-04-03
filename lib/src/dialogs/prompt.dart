@@ -8,18 +8,16 @@ class PromptDialog extends StatelessWidget {
     required this.content,
     this.leftButtonText,
     this.rightButtonText,
-    required this.cancel,
     required this.onLeftClick,
     required this.onRightClick,
   });
 
   final String? title;
   final String content;
-  final CancelFunc cancel;
   final String? leftButtonText;
   final String? rightButtonText;
-  final void Function(CancelFunc cancel) onLeftClick;
-  final void Function(CancelFunc cancel) onRightClick;
+  final void Function() onLeftClick;
+  final void Function() onRightClick;
 
   @override
   Widget build(BuildContext context) {
@@ -27,12 +25,9 @@ class PromptDialog extends StatelessWidget {
       title: Text(title ?? "Prompt"),
       content: Text(content),
       actions: [
+        TextButton(onPressed: onLeftClick, child: Text(leftButtonText ?? "No")),
         TextButton(
-          onPressed: () => onLeftClick(cancel),
-          child: Text(leftButtonText ?? "No"),
-        ),
-        TextButton(
-          onPressed: () => onRightClick(cancel),
+          onPressed: onRightClick,
           child: Text(rightButtonText ?? "Yes"),
         ),
       ],
@@ -42,14 +37,14 @@ class PromptDialog extends StatelessWidget {
   static CancelFunc show(
     String content, {
     String? title,
-    final String? leftButtonText,
-    final String? rightButtonText,
-    required final void Function(CancelFunc cancel) onLeftClick,
-    required final void Function(CancelFunc cancel) onRightClick,
+    String? leftButtonText,
+    String? rightButtonText,
+    required void Function(CancelFunc close) onLeftClick,
+    required void Function(CancelFunc close) onRightClick,
     bool dismissable = false,
   }) {
     return BotToast.showEnhancedWidget(
-      backgroundColor: Colors.black38,
+      backgroundColor: Colors.black54,
       clickClose: dismissable,
       allowClick: false,
       onlyOne: true,
@@ -58,11 +53,10 @@ class PromptDialog extends StatelessWidget {
           (cancelFunc) => PromptDialog(
             title: title,
             content: content,
-            onLeftClick: onLeftClick,
-            onRightClick: onRightClick,
+            onLeftClick: () => onLeftClick(cancelFunc),
+            onRightClick: () => onRightClick(cancelFunc),
             rightButtonText: rightButtonText,
             leftButtonText: leftButtonText,
-            cancel: cancelFunc,
           ),
     );
   }

@@ -6,19 +6,19 @@ class ErrorDialog extends StatelessWidget {
     super.key,
     this.title,
     required this.content,
-    required this.cancel,
+    required this.onClose,
   });
 
   final String? title;
   final String content;
-  final CancelFunc cancel;
+  final VoidCallback onClose;
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
       title: Text(title ?? "Error"),
       content: Text(content),
-      actions: [TextButton(onPressed: cancel, child: Text('Close'))],
+      actions: [TextButton(onPressed: onClose, child: Text('Close'))],
     );
   }
 
@@ -26,16 +26,20 @@ class ErrorDialog extends StatelessWidget {
     String error, {
     String? title,
     bool dismissable = true,
+    void Function(CancelFunc close)? onClose,
   }) {
     return BotToast.showEnhancedWidget(
-      backgroundColor: Colors.black38,
+      backgroundColor: Colors.black54,
       clickClose: dismissable,
       allowClick: false,
       onlyOne: true,
       backButtonBehavior: BackButtonBehavior.ignore,
       toastBuilder:
-          (cancelFunc) =>
-              ErrorDialog(title: title, content: error, cancel: cancelFunc),
+          (cancelFunc) => ErrorDialog(
+            title: title,
+            content: error,
+            onClose: onClose != null ? () => onClose(cancelFunc) : cancelFunc,
+          ),
     );
   }
 }

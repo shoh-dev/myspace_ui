@@ -6,19 +6,19 @@ class SuccessDialog extends StatelessWidget {
     super.key,
     this.title,
     required this.content,
-    required this.cancel,
+    required this.onClose,
   });
 
   final String? title;
   final String content;
-  final CancelFunc cancel;
+  final VoidCallback onClose;
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
       title: Text(title ?? "Success"),
       content: Text(content),
-      actions: [TextButton(onPressed: cancel, child: Text('Close'))],
+      actions: [TextButton(onPressed: onClose, child: Text('Close'))],
     );
   }
 
@@ -26,6 +26,7 @@ class SuccessDialog extends StatelessWidget {
     String info, {
     String? title,
     bool dismissable = true,
+    void Function(CancelFunc close)? onClose,
   }) {
     return BotToast.showEnhancedWidget(
       backgroundColor: Colors.black38,
@@ -34,8 +35,11 @@ class SuccessDialog extends StatelessWidget {
       onlyOne: true,
       backButtonBehavior: BackButtonBehavior.ignore,
       toastBuilder:
-          (cancelFunc) =>
-              SuccessDialog(title: title, content: info, cancel: cancelFunc),
+          (cancelFunc) => SuccessDialog(
+            title: title,
+            content: info,
+            onClose: onClose != null ? () => onClose(cancelFunc) : cancelFunc,
+          ),
     );
   }
 }
