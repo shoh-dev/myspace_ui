@@ -5,7 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:myspace_core/myspace_core.dart';
 
 typedef UIPageBuilder =
-    Widget Function(BuildContext context, GoRouterState state, Vm? pageVm);
+    Widget Function(BuildContext context, GoRouterState state, Vm? vm);
 
 typedef UIVmProvider = Vm Function();
 
@@ -14,14 +14,14 @@ class UIPage {
   final String path;
   final bool forceRebuild;
   final UIPageBuilder builder;
-  final UIVmProvider? pageVm;
+  final UIVmProvider? vm;
   final GoRouterRedirect? redirect;
 
   const UIPage({
     required this.name,
     required this.path,
     required this.builder,
-    this.pageVm,
+    this.vm,
     this.redirect,
 
     ///enforces rebuild on each navigation
@@ -39,8 +39,8 @@ class UIPage {
       builder: (context, state) {
         return _Page(
           key: forceRebuild ? UniqueKey() : null,
-          vm: pageVm,
-          child: (pageVm) => builder(context, state, pageVm),
+          vm: vm,
+          child: (vm) => builder(context, state, vm),
         );
       },
     );
