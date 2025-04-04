@@ -7,7 +7,7 @@ import 'package:myspace_core/myspace_core.dart';
 typedef UIPageBuilder =
     Widget Function(BuildContext context, GoRouterState state, Vm? vm);
 
-typedef UIVmProvider = Vm Function();
+typedef UIVmProvider = Vm Function(BuildContext context);
 
 class UIPage {
   final String name;
@@ -59,6 +59,7 @@ class _Page extends StatefulWidget {
 
 class _PageState extends State<_Page> {
   Vm? vm;
+  bool isVmLoaded = false;
 
   @override
   void dispose() {
@@ -71,14 +72,20 @@ class _PageState extends State<_Page> {
 
   @override
   void initState() {
-    if (widget.vm != null) {
-      vm = widget.vm!();
-    }
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (widget.vm != null) {
+        vm = widget.vm!(context);
+      }
+      setState(() {
+        isVmLoaded = true;
+      });
+    });
   }
 
   @override
-  Widget build(BuildContext context) => widget.child(vm);
+  Widget build(BuildContext context) =>
+      isVmLoaded ? widget.child(vm) : const SizedBox.shrink();
 }
 
 
