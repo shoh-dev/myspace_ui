@@ -9,33 +9,53 @@ typedef UIPageBuilder =
 
 typedef UIVmProvider = Vm Function(BuildContext context);
 
-class UIPage {
+abstract class UIRoute {
   final String name;
   final String path;
   final bool forceRebuild;
   final UIPageBuilder builder;
   final UIVmProvider? vm;
   final GoRouterRedirect? redirect;
+  final List<UIRoute> pages;
 
-  const UIPage({
+  const UIRoute({
     required this.name,
     required this.path,
     required this.builder,
     this.vm,
     this.redirect,
+    this.pages = const [],
 
     ///enforces rebuild on each navigation
     this.forceRebuild = false,
   });
 
+  GoRoute toRoute();
+}
+
+class UIPage extends UIRoute {
+  const UIPage({
+    required super.name,
+    required super.path,
+    required super.builder,
+    super.vm,
+    super.redirect,
+    super.pages,
+
+    ///enforces rebuild on each navigation
+    super.forceRebuild = false,
+  });
+
+  @override
   GoRoute toRoute() {
-    if (!path.startsWith("/")) {
-      throw Exception('Name: ($name), Path: ($path) must start with slash(/)');
-    }
+    // if (!path.startsWith("/")) {
+    //   throw Exception('Name: ($name), Path: ($path) must start with slash(/)');
+    // }
     return GoRoute(
       path: path,
       name: name,
       redirect: redirect,
+      routes: [for (final subPage in pages) subPage.toRoute()],
       builder: (context, state) {
         return _Page(
           key: forceRebuild ? UniqueKey() : null,
@@ -45,6 +65,86 @@ class UIPage {
       },
     );
   }
+}
+
+class UIDialog extends UIRoute {
+  final bool barrierDismissible;
+
+  const UIDialog({
+    required super.name,
+    required super.path,
+    required super.builder,
+    super.vm,
+    super.redirect,
+    super.pages,
+
+    ///enforces rebuild on each navigation
+    super.forceRebuild = false,
+    this.barrierDismissible = true,
+  });
+
+  @override
+  GoRoute toRoute() {
+    // if (!path.startsWith("/")) {
+    //   throw Exception('Name: ($name), Path: ($path) must start with slash(/)');
+    // }
+    return GoRoute(
+      path: path,
+      name: name,
+      redirect: redirect,
+      routes: [for (final subPage in pages) subPage.toRoute()],
+      pageBuilder: (context, state) {
+        return _DialogPage(
+          name: name,
+          key: state.pageKey,
+          builder:
+              (context) => _Page(
+                key: forceRebuild ? UniqueKey() : null,
+                vm: vm,
+                child: (vm) => builder(context, state, vm),
+              ),
+        );
+      },
+    );
+  }
+}
+
+//https://croxx5f.hashnode.dev/adding-modal-routes-to-your-gorouter
+class _DialogPage<T> extends Page<T> {
+  final Offset? anchorPoint;
+  final Color? barrierColor;
+  final bool barrierDismissible;
+  final String? barrierLabel;
+  final bool useSafeArea;
+  final CapturedThemes? themes;
+  final WidgetBuilder builder;
+
+  const _DialogPage({
+    required this.builder,
+    this.anchorPoint,
+    this.barrierColor = Colors.black54,
+    this.barrierDismissible = true,
+    this.barrierLabel,
+    this.useSafeArea = true,
+    this.themes,
+    super.key,
+    super.name,
+    super.arguments,
+    super.restorationId,
+  });
+
+  @override
+  Route<T> createRoute(BuildContext context) => DialogRoute<T>(
+    context: context,
+    settings: this,
+    builder: builder,
+    anchorPoint: anchorPoint,
+    barrierColor: barrierColor,
+    barrierDismissible: barrierDismissible,
+    barrierLabel: barrierLabel,
+    useSafeArea: useSafeArea,
+    themes: themes,
+  );
 }
 
 class _Page extends StatefulWidget {

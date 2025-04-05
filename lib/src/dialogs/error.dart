@@ -6,19 +6,24 @@ class ErrorDialog extends StatelessWidget {
     super.key,
     this.title,
     required this.content,
-    required this.onClose,
+    this.actionText,
+    this.actionCallback,
   });
 
   final String? title;
   final String content;
-  final VoidCallback onClose;
+  final String? actionText;
+  final VoidCallback? actionCallback;
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
       title: Text(title ?? "Error"),
-      content: Text(content),
-      actions: [TextButton(onPressed: onClose, child: Text('Close'))],
+      content: SizedBox(width: 400, child: Text(content)),
+      actions: [
+        if (actionCallback != null && actionText != null)
+          TextButton(onPressed: actionCallback, child: Text(actionText!)),
+      ],
     );
   }
 
@@ -38,7 +43,9 @@ class ErrorDialog extends StatelessWidget {
           (cancelFunc) => ErrorDialog(
             title: title,
             content: error,
-            onClose: onClose != null ? () => onClose(cancelFunc) : cancelFunc,
+            actionText: "Close",
+            actionCallback:
+                onClose != null ? () => onClose(cancelFunc) : cancelFunc,
           ),
     );
   }
