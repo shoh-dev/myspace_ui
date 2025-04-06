@@ -1,5 +1,6 @@
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
+import 'package:myspace_design_system/myspace_design_system.dart';
 
 class PromptDialog extends StatelessWidget {
   const PromptDialog({
@@ -10,6 +11,7 @@ class PromptDialog extends StatelessWidget {
     this.rightButtonText,
     required this.onLeftClick,
     required this.onRightClick,
+    this.isDestructive = false,
   });
 
   final String? title;
@@ -18,18 +20,28 @@ class PromptDialog extends StatelessWidget {
   final String? rightButtonText;
   final void Function() onLeftClick;
   final void Function() onRightClick;
+  final bool isDestructive;
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text(title ?? "Prompt"),
-      content: Text(content),
+      title: TextComponent.any(title ?? "Prompt"),
+      content: TextComponent.any(content),
       actions: [
-        TextButton(onPressed: onLeftClick, child: Text(leftButtonText ?? "No")),
-        TextButton(
-          onPressed: onRightClick,
-          child: Text(rightButtonText ?? "Yes"),
+        ButtonComponent.text(
+          onPressed: onLeftClick,
+          text: leftButtonText ?? "No",
         ),
+        if (!isDestructive)
+          ButtonComponent.text(
+            onPressed: onRightClick,
+            text: rightButtonText ?? "Yes",
+          )
+        else
+          ButtonComponent.destructive(
+            onPressed: onRightClick,
+            text: rightButtonText ?? "Yes",
+          ),
       ],
     );
   }
@@ -42,6 +54,7 @@ class PromptDialog extends StatelessWidget {
     required void Function(CancelFunc close) onLeftClick,
     required void Function(CancelFunc close) onRightClick,
     bool dismissable = false,
+    bool isDestructive = false,
   }) {
     return BotToast.showEnhancedWidget(
       backgroundColor: Colors.black54,
@@ -53,6 +66,7 @@ class PromptDialog extends StatelessWidget {
           (cancelFunc) => PromptDialog(
             title: title,
             content: content,
+            isDestructive: isDestructive,
             onLeftClick: () => onLeftClick(cancelFunc),
             onRightClick: () => onRightClick(cancelFunc),
             rightButtonText: rightButtonText,
