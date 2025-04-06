@@ -2,6 +2,7 @@ name: myspace_ui
 description: "A new Flutter package project."
 version: 0.0.1
 homepage:
+publish_to: 'none'
 
 environment:
   sdk: ^3.7.2
@@ -13,7 +14,8 @@ dependencies:
     sdk: flutter
   go_router: ^14.8.1
 
-  myspace_core: ^0.0.1
+  myspace_core:
+    path: ../myspace_core
   provider: ^6.1.4
 
 dev_dependencies:

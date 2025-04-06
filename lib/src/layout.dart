@@ -4,6 +4,12 @@ import 'package:myspace_ui/src/page.dart';
 
 export 'page.dart';
 
+abstract class LayoutStatelessWidget extends StatelessWidget {
+  final StatefulNavigationShell shell;
+
+  const LayoutStatelessWidget({super.key, required this.shell});
+}
+
 typedef UILayoutBuilder =
     Widget Function(
       BuildContext context,
