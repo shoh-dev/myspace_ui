@@ -7,21 +7,21 @@ import 'package:myspace_core/myspace_core.dart';
 typedef UIPageBuilder =
     Widget Function(BuildContext context, GoRouterState state, Vm? vm);
 
-typedef UIVmProvider = Vm Function(BuildContext context);
+typedef UIVmProvider = Vm Function(BuildContext context, GoRouterState state);
 
 abstract class UIRoute {
-  final String name;
+  final String? name;
   final String path;
   final bool forceRebuild;
-  final UIPageBuilder builder;
+  final UIPageBuilder? builder;
   final UIVmProvider? vm;
   final GoRouterRedirect? redirect;
   final List<UIRoute> pages;
 
   const UIRoute({
-    required this.name,
+    this.name,
     required this.path,
-    required this.builder,
+    this.builder,
     this.vm,
     this.redirect,
     this.pages = const [],
@@ -35,9 +35,9 @@ abstract class UIRoute {
 
 class UIPage extends UIRoute {
   const UIPage({
-    required super.name,
+    super.name,
     required super.path,
-    required super.builder,
+    super.builder,
     super.vm,
     super.redirect,
     super.pages,
@@ -48,21 +48,22 @@ class UIPage extends UIRoute {
 
   @override
   GoRoute toRoute() {
-    // if (!path.startsWith("/")) {
-    //   throw Exception('Name: ($name), Path: ($path) must start with slash(/)');
-    // }
     return GoRoute(
       path: path,
       name: name,
       redirect: redirect,
       routes: [for (final subPage in pages) subPage.toRoute()],
-      builder: (context, state) {
-        return _Page(
-          key: forceRebuild ? UniqueKey() : null,
-          vm: vm,
-          child: (vm) => builder(context, state, vm),
-        );
-      },
+      builder:
+          builder != null
+              ? (context, state) {
+                return _Page(
+                  key: forceRebuild ? UniqueKey() : null,
+                  vm: vm,
+                  state: state,
+                  child: (vm) => builder!(context, state, vm),
+                );
+              }
+              : null,
     );
   }
 }
@@ -71,7 +72,7 @@ class UIDialog extends UIRoute {
   final bool barrierDismissible;
 
   const UIDialog({
-    required super.name,
+    super.name,
     required super.path,
     required super.builder,
     super.vm,
@@ -85,26 +86,27 @@ class UIDialog extends UIRoute {
 
   @override
   GoRoute toRoute() {
-    // if (!path.startsWith("/")) {
-    //   throw Exception('Name: ($name), Path: ($path) must start with slash(/)');
-    // }
     return GoRoute(
       path: path,
       name: name,
       redirect: redirect,
       routes: [for (final subPage in pages) subPage.toRoute()],
-      pageBuilder: (context, state) {
-        return _DialogPage(
-          name: name,
-          key: state.pageKey,
-          builder:
-              (context) => _Page(
-                key: forceRebuild ? UniqueKey() : null,
-                vm: vm,
-                child: (vm) => builder(context, state, vm),
-              ),
-        );
-      },
+      pageBuilder:
+          builder != null
+              ? (context, state) {
+                return _DialogPage(
+                  name: name,
+                  key: state.pageKey,
+                  builder:
+                      (context) => _Page(
+                        key: forceRebuild ? UniqueKey() : null,
+                        state: state,
+                        vm: vm,
+                        child: (vm) => builder!(context, state, vm),
+                      ),
+                );
+              }
+              : null,
     );
   }
 }
@@ -148,10 +150,11 @@ class _DialogPage<T> extends Page<T> {
 }
 
 class _Page extends StatefulWidget {
-  const _Page({super.key, required this.child, this.vm});
+  const _Page({super.key, required this.child, this.vm, required this.state});
 
   final UIVmProvider? vm;
   final Widget Function(Vm? vm) child;
+  final GoRouterState state;
 
   @override
   State<_Page> createState() => _PageState();
@@ -165,7 +168,7 @@ class _PageState extends State<_Page> {
   void dispose() {
     if (vm != null && vm!.isDisposed == false) {
       vm!.dispose();
-      log('Disposed VM from _Page');
+      log('Disposed ${vm.runtimeType} from _Page');
     }
     super.dispose();
   }
@@ -175,7 +178,7 @@ class _PageState extends State<_Page> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (widget.vm != null) {
-        vm = widget.vm!(context);
+        vm = widget.vm!(context, widget.state);
       }
       setState(() {
         isVmLoaded = true;

@@ -9,7 +9,7 @@ class LoadingDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text(title ?? "Loading..."),
+      title: title != null ? Text(title!) : null,
       content: SizedBox.fromSize(
         size: Size.fromHeight(64),
         child: Center(child: CircularProgressIndicator.adaptive()),
@@ -23,7 +23,7 @@ class LoadingDialog extends StatelessWidget {
       clickClose: dismissable,
       allowClick: false,
       backButtonBehavior: BackButtonBehavior.ignore,
-      toastBuilder: (cancelFunc) => LoadingDialog(title: title),
+      toastBuilder: (cancelFunc) => LoadingDialog(title: title ?? "Loading..."),
     );
   }
 }

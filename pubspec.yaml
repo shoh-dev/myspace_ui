@@ -13,10 +13,13 @@ dependencies:
   flutter:
     sdk: flutter
   go_router: ^14.8.1
+  provider: ^6.1.4
 
+  # Shared
   myspace_core:
     path: ../myspace_core
-  provider: ^6.1.4
+  myspace_design_system:
+    path: ../myspace_design_system
 
 dev_dependencies:
   flutter_test:
