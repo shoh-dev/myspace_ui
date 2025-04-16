@@ -25,7 +25,7 @@ class PromptDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: TextComponent.any(title ?? "Prompt"),
+      title: TextComponent.any(title ?? "Attention"),
       content: TextComponent.any(content),
       actions: [
         ButtonComponent.text(
@@ -51,7 +51,7 @@ class PromptDialog extends StatelessWidget {
     String? title,
     String? leftButtonText,
     String? rightButtonText,
-    required void Function(CancelFunc close) onLeftClick,
+    void Function(CancelFunc close)? onLeftClick,
     required void Function(CancelFunc close) onRightClick,
     bool dismissable = false,
     bool isDestructive = false,
@@ -67,7 +67,10 @@ class PromptDialog extends StatelessWidget {
             title: title,
             content: content,
             isDestructive: isDestructive,
-            onLeftClick: () => onLeftClick(cancelFunc),
+            onLeftClick:
+                onLeftClick != null
+                    ? () => onLeftClick(cancelFunc)
+                    : () => cancelFunc(),
             onRightClick: () => onRightClick(cancelFunc),
             rightButtonText: rightButtonText,
             leftButtonText: leftButtonText,
