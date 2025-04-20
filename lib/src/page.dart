@@ -1,33 +1,24 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:myspace_core/myspace_core.dart';
 
-typedef UIPageBuilder =
-    Widget Function(BuildContext context, GoRouterState state, Vm? vm);
-
-typedef UIVmProvider = Vm Function(BuildContext context, GoRouterState state);
-
-abstract class UIRoute {
+abstract class UIRoute<VM extends Vm> {
   final String? name;
   final String path;
-  final bool forceRebuild;
-  final UIPageBuilder? builder;
-  final UIVmProvider? vm;
+  final GoRouterWidgetBuilder? builder;
   final GoRouterRedirect? redirect;
   final List<UIRoute> pages;
+  // final bool forceRebuild;
 
   const UIRoute({
     this.name,
     required this.path,
     this.builder,
-    this.vm,
     this.redirect,
     this.pages = const [],
 
-    ///enforces rebuild on each navigation
-    this.forceRebuild = false,
+    // ///enforces rebuild on each navigation
+    // this.forceRebuild = false,
   });
 
   GoRoute toRoute();
@@ -38,12 +29,11 @@ class UIPage extends UIRoute {
     super.name,
     required super.path,
     super.builder,
-    super.vm,
     super.redirect,
     super.pages,
 
-    ///enforces rebuild on each navigation
-    super.forceRebuild = false,
+    // ///enforces rebuild on each navigation
+    // super.forceRebuild = false,
   });
 
   @override
@@ -53,17 +43,7 @@ class UIPage extends UIRoute {
       name: name,
       redirect: redirect,
       routes: [for (final subPage in pages) subPage.toRoute()],
-      builder:
-          builder != null
-              ? (context, state) {
-                return _Page(
-                  key: forceRebuild ? UniqueKey() : null,
-                  vm: vm,
-                  state: state,
-                  child: (vm) => builder!(context, state, vm),
-                );
-              }
-              : null,
+      builder: builder,
     );
   }
 }
@@ -75,17 +55,16 @@ class UIDialog extends UIRoute {
     super.name,
     required super.path,
     required super.builder,
-    super.vm,
     super.redirect,
     super.pages,
 
-    ///enforces rebuild on each navigation
-    super.forceRebuild = false,
+    // ///enforces rebuild on each navigation
+    // super.forceRebuild = false,
     this.barrierDismissible = true,
   });
 
   @override
-  GoRoute toRoute() {
+  GoRoute toRoute({Vm? layoutVm}) {
     return GoRoute(
       path: path,
       name: name,
@@ -97,13 +76,7 @@ class UIDialog extends UIRoute {
                 return _DialogPage(
                   name: name,
                   key: state.pageKey,
-                  builder:
-                      (context) => _Page(
-                        key: forceRebuild ? UniqueKey() : null,
-                        state: state,
-                        vm: vm,
-                        child: (vm) => builder!(context, state, vm),
-                      ),
+                  builder: (context) => builder!(context, state),
                 );
               }
               : null,
@@ -148,75 +121,3 @@ class _DialogPage<T> extends Page<T> {
     themes: themes,
   );
 }
-
-class _Page extends StatefulWidget {
-  const _Page({super.key, required this.child, this.vm, required this.state});
-
-  final UIVmProvider? vm;
-  final Widget Function(Vm? vm) child;
-  final GoRouterState state;
-
-  @override
-  State<_Page> createState() => _PageState();
-}
-
-class _PageState extends State<_Page> {
-  Vm? vm;
-  bool isVmLoaded = false;
-
-  @override
-  void dispose() {
-    if (vm != null && vm!.isDisposed == false) {
-      vm!.dispose();
-      log('Disposed ${vm.runtimeType} from _Page');
-    }
-    super.dispose();
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (widget.vm != null) {
-        vm = widget.vm!(context, widget.state);
-      }
-      setState(() {
-        isVmLoaded = true;
-      });
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) =>
-      isVmLoaded ? widget.child(vm) : const SizedBox.shrink();
-}
-
-
- // pageBuilder: (context, state) {
-      //   return MaterialPage(
-      //     key: state.pageKey,
-      //     child: _Page(
-      //       key: forceRebuild ? UniqueKey() : null,
-      //       vm: vm,
-      //       child: (vm) => builder(context, state, vm),
-      //     ),
-      //   );
-      // },
-      // onExit: (context, state) async {
-      //   return (await showDialog<bool>(
-      //         context: context,
-      //         builder: (context) {
-      //           return PromptDialog(
-      //             cancel: () {},
-      //             content: "Close",
-      //             onLeftClick: () {
-      //               Navigator.pop(context, false);
-      //             },
-      //             onRightClick: () {
-      //               Navigator.pop(context, true);
-      //             },
-      //           );
-      //         },
-      //       )) ??
-      //       false;
-      // }, //todo: can show do you want to exit dialog

@@ -1,43 +1,36 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
-import 'package:myspace_ui/src/page.dart';
+import 'package:myspace_core/myspace_core.dart';
+import 'package:myspace_ui/src/branch.dart';
 
 export 'page.dart';
+export 'branch.dart';
 
-abstract class LayoutStatelessWidget extends StatelessWidget {
-  final StatefulNavigationShell shell;
-
-  const LayoutStatelessWidget({super.key, required this.shell});
-}
-
-typedef UILayoutBuilder =
-    Widget Function(
-      BuildContext context,
-      GoRouterState state,
-      StatefulNavigationShell shell,
-    );
-
-class UILayout {
-  final UILayoutBuilder layoutBuilder;
+class UILayout<VM extends Vm> {
+  final ChangeNotifierProvider<VM> Function(
+    BuildContext context,
+    StatefulNavigationShell shell,
+  )?
+  builder;
+  final StatefulShellRouteBuilder layoutBuilder;
   final GoRouterRedirect? redirect;
-  final List<List<UIRoute>> pages;
+  final List<UIBranch> branches;
 
   const UILayout({
     required this.layoutBuilder,
-    required this.pages,
+    required this.branches,
     this.redirect,
+    this.builder,
   });
 
   StatefulShellRoute toShellRoute() {
     return StatefulShellRoute.indexedStack(
-      builder: layoutBuilder,
+      builder:
+          builder != null
+              ? (ctx, state, shell) => builder!(ctx, shell)
+              : layoutBuilder,
       redirect: redirect,
-      branches: [
-        for (final pages in this.pages)
-          StatefulShellBranch(
-            routes: [for (final page in pages) page.toRoute()],
-          ),
-      ],
+      branches: [for (final branch in branches) branch.toStatefulShellBranch()],
     );
   }
 }
