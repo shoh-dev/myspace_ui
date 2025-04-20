@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:myspace_core/myspace_core.dart';
 
-abstract class UIRoute<VM extends Vm> {
+abstract class UIRoute {
   final String? name;
   final String path;
   final GoRouterWidgetBuilder? builder;
