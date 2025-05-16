@@ -2,7 +2,8 @@ import 'dart:developer';
 import 'package:bot_toast/bot_toast.dart' as toast;
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:myspace_design_system/myspace_design_system.dart';
+
+import 'app_theme.dart';
 
 class UIApp extends StatelessWidget {
   const UIApp({

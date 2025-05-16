@@ -1,6 +1,6 @@
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
-import 'package:myspace_design_system/myspace_design_system.dart';
+import 'package:myspace_ui/myspace_ui.dart';
 
 class PromptDialog extends StatelessWidget {
   const PromptDialog({

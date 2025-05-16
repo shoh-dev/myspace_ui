@@ -16,10 +16,8 @@ dependencies:
   provider: ^6.1.4
 
   # Shared
-  myspace_core:
-    path: ../myspace_core
-  myspace_design_system:
-    path: ../myspace_design_system
+  # myspace_core:
+    # path: ../myspace_core
 
 dev_dependencies:
   flutter_test:

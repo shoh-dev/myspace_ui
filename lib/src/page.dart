@@ -1,24 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:myspace_core/myspace_core.dart';
 
 abstract class UIRoute {
   final String? name;
   final String path;
-  final GoRouterWidgetBuilder? builder;
   final GoRouterRedirect? redirect;
   final List<UIRoute> pages;
-  // final bool forceRebuild;
+  final GoRouterWidgetBuilder? builder;
+  final Widget Function(
+    BuildContext context,
+    Animation<double> animation,
+    Animation<double> secondaryAnimation,
+    Widget child,
+  )?
+  transitionsBuilder;
 
   const UIRoute({
     this.name,
+    this.transitionsBuilder,
     required this.path,
     this.builder,
     this.redirect,
     this.pages = const [],
-
-    // ///enforces rebuild on each navigation
-    // this.forceRebuild = false,
   });
 
   GoRoute toRoute();
@@ -27,13 +30,11 @@ abstract class UIRoute {
 class UIPage extends UIRoute {
   const UIPage({
     super.name,
+    super.transitionsBuilder,
     required super.path,
     super.builder,
     super.redirect,
     super.pages,
-
-    // ///enforces rebuild on each navigation
-    // super.forceRebuild = false,
   });
 
   @override
@@ -44,6 +45,17 @@ class UIPage extends UIRoute {
       redirect: redirect,
       routes: [for (final subPage in pages) subPage.toRoute()],
       builder: builder,
+      pageBuilder:
+          builder != null && transitionsBuilder != null
+              ? (context, state) {
+                return CustomTransitionPage(
+                  key: state.pageKey,
+                  child: builder!(context, state),
+                  transitionsBuilder: transitionsBuilder!,
+                );
+              }
+              : null,
+      // builder: builder,
     );
   }
 }
@@ -57,14 +69,11 @@ class UIDialog extends UIRoute {
     required super.builder,
     super.redirect,
     super.pages,
-
-    // ///enforces rebuild on each navigation
-    // super.forceRebuild = false,
     this.barrierDismissible = true,
   });
 
   @override
-  GoRoute toRoute({Vm? layoutVm}) {
+  GoRoute toRoute() {
     return GoRoute(
       path: path,
       name: name,
