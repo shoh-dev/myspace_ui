@@ -1,5 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:myspace_ui/src/transitions.dart';
 
 abstract class UIRoute {
   final String? name;
@@ -7,21 +9,17 @@ abstract class UIRoute {
   final GoRouterRedirect? redirect;
   final List<UIRoute> pages;
   final GoRouterWidgetBuilder? builder;
-  final Widget Function(
-    BuildContext context,
-    Animation<double> animation,
-    Animation<double> secondaryAnimation,
-    Widget child,
-  )?
-  transitionsBuilder;
+  final TransitionType? transitionType;
+  final Duration? transitionDuration;
 
   const UIRoute({
     this.name,
-    this.transitionsBuilder,
+    this.transitionType,
     required this.path,
     this.builder,
     this.redirect,
     this.pages = const [],
+    this.transitionDuration,
   });
 
   GoRoute toRoute();
@@ -30,11 +28,12 @@ abstract class UIRoute {
 class UIPage extends UIRoute {
   const UIPage({
     super.name,
-    super.transitionsBuilder,
+    super.transitionType,
     required super.path,
     super.builder,
     super.redirect,
     super.pages,
+    super.transitionDuration,
   });
 
   @override
@@ -46,12 +45,14 @@ class UIPage extends UIRoute {
       routes: [for (final subPage in pages) subPage.toRoute()],
       builder: builder,
       pageBuilder:
-          builder != null && transitionsBuilder != null
+          builder != null && transitionType != null
               ? (context, state) {
                 return CustomTransitionPage(
+                  transitionDuration:
+                      transitionDuration ?? const Duration(milliseconds: 300),
                   key: state.pageKey,
                   child: builder!(context, state),
-                  transitionsBuilder: transitionsBuilder!,
+                  transitionsBuilder: transitionType!.builder,
                 );
               }
               : null,

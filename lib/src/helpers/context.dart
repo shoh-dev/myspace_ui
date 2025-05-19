@@ -27,4 +27,8 @@ extension BuildContextHelpers on BuildContext {
       MediaQuery.platformBrightnessOf(this) == Brightness.dark;
   bool get isLightMode =>
       MediaQuery.platformBrightnessOf(this) == Brightness.light;
+
+  void unfocus() {
+    FocusScope.of(this).unfocus();
+  }
 }

@@ -12,10 +12,20 @@ class PrimaryButtonComponent extends ButtonComponent {
     super.onPressed,
     required String text,
     super.icon,
+    super.isLoading,
   }) : super(text: text);
 
   @override
   Widget build(BuildContext context) {
+    if (isLoading) {
+      return _disabled(
+        FilledButton(
+          onPressed: null,
+          child: CircularProgressIndicator.adaptive(),
+        ),
+        null,
+      );
+    }
     if (icon != null) {
       return _disabled(
         FilledButton.icon(

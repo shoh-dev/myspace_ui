@@ -7,14 +7,20 @@ class AppTheme {
   // final Color? surfaceDark;
   // final Color? surfaceLight;
   final ColorScheme _colorSchemeLight;
+  final Color? _scaffoldBackgroundColorLight;
   final ColorScheme _colorSchemeDark;
+  final Color? _scaffoldBackgroundColorDark;
 
   AppTheme({
     this.borderRadius,
     ColorScheme? colorSchemeDark,
     ColorScheme? colorSchemeLight,
+    Color? scaffoldBackgroundColorLight,
+    Color? scaffoldBackgroundColorDark,
   }) : _colorSchemeDark = colorSchemeDark ?? const ColorScheme.dark(),
-       _colorSchemeLight = colorSchemeLight ?? const ColorScheme.light();
+       _colorSchemeLight = colorSchemeLight ?? const ColorScheme.light(),
+       _scaffoldBackgroundColorLight = scaffoldBackgroundColorLight,
+       _scaffoldBackgroundColorDark = scaffoldBackgroundColorDark;
 
   // late final _colorSchemeLight = ColorScheme.fromSeed(
   //   seedColor: seedLight ?? Colors.blue,
@@ -75,8 +81,8 @@ class AppTheme {
   late final _iconButtonThemeDataLight = IconButtonThemeData(
     style: IconButton.styleFrom(
       shape: _border,
-      backgroundColor: _colorSchemeLight.primary,
-      foregroundColor: _colorSchemeLight.onPrimary,
+      backgroundColor: _colorSchemeLight.primaryContainer,
+      foregroundColor: _colorSchemeLight.primary,
     ),
   );
   late final _iconButtonThemeDataDark = IconButtonThemeData(
@@ -94,10 +100,10 @@ class AppTheme {
   late final _textFieldThemeDataLight = InputDecorationTheme(
     filled: true,
     contentPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-    fillColor: _colorSchemeLight.surfaceContainer,
+    fillColor: _colorSchemeLight.surface,
     floatingLabelBehavior: FloatingLabelBehavior.never,
     hintStyle: TextStyle(
-      fontSize: 14,
+      // fontSize: 14,
       color: _colorSchemeLight.onSurface.withValues(alpha: 0.38),
     ),
     border: OutlineInputBorder(
@@ -117,7 +123,7 @@ class AppTheme {
       borderRadius: _border.borderRadius as BorderRadius,
     ),
     enabledBorder: OutlineInputBorder(
-      borderSide: BorderSide(color: _colorSchemeLight.outline, width: 1),
+      borderSide: BorderSide(color: _colorSchemeLight.outline, width: 0),
       borderRadius: _border.borderRadius as BorderRadius,
     ),
     disabledBorder: OutlineInputBorder(
@@ -251,8 +257,38 @@ class AppTheme {
 
   // Slider Theme Data End
 
+  // AppBar Theme Data Start
+
+  late final _appBarThemeDataLight = AppBarTheme(
+    backgroundColor: _colorSchemeLight.surface,
+  );
+
+  late final _appBarThemeDataDark = AppBarTheme(
+    backgroundColor: _colorSchemeDark.surface,
+  );
+
+  // AppBar Theme Data End
+
+  // Floating Action Button Theme Data Start
+
+  late final _floatingActionButtonThemeDataLight =
+      FloatingActionButtonThemeData(
+        backgroundColor: _colorSchemeLight.primary,
+        foregroundColor: _colorSchemeLight.onPrimary,
+      );
+
+  late final _floatingActionButtonThemeDataDark = FloatingActionButtonThemeData(
+    backgroundColor: _colorSchemeDark.primary,
+    foregroundColor: _colorSchemeDark.onPrimary,
+  );
+
+  // Floating Action Button Theme Data End
+
   late final ThemeData lightTheme = ThemeData.light().copyWith(
-    scaffoldBackgroundColor: _colorSchemeLight.surface,
+    floatingActionButtonTheme: _floatingActionButtonThemeDataLight,
+    scaffoldBackgroundColor:
+        _scaffoldBackgroundColorLight ?? _colorSchemeLight.surface,
+    appBarTheme: _appBarThemeDataLight,
     colorScheme: _colorSchemeLight,
     textTheme: _textThemeLight,
     filledButtonTheme: _filledButtonThemeDataLight,
@@ -269,7 +305,8 @@ class AppTheme {
   );
 
   late final ThemeData darkTheme = ThemeData.dark().copyWith(
-    scaffoldBackgroundColor: _colorSchemeDark.surface,
+    scaffoldBackgroundColor:
+        _scaffoldBackgroundColorDark ?? _colorSchemeDark.surface,
     colorScheme: _colorSchemeDark,
     textTheme: _textThemeDark,
     filledButtonTheme: _filledButtonThemeDataDark,

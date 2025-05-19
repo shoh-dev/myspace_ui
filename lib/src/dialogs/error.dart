@@ -19,7 +19,7 @@ class ErrorDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog(
       title: Text(title ?? "Error"),
-      content: SizedBox(width: 400, child: Text(content)),
+      content: Text(content),
       actions: [
         if (actionCallback != null && actionText != null)
           TextButton(onPressed: actionCallback, child: Text(actionText!)),

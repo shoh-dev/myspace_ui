@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'types/column.dart';
 import 'types/row.dart';
 import 'types/stack.dart';
+import 'types/wrap.dart';
 
 abstract class LayoutComponent extends StatelessWidget {
   const LayoutComponent({
@@ -37,7 +38,11 @@ abstract class LayoutComponent extends StatelessWidget {
   }) = ColumnComponent;
 
   /// Not finished yet
-  const factory LayoutComponent.stack({
+  const factory LayoutComponent.stack({required final List<Widget> children}) =
+      StackComponent;
+
+  const factory LayoutComponent.wrap({
     required final List<Widget> children,
-  }) = StackComponent;
+    double? spacing,
+  }) = WrapComponent;
 }

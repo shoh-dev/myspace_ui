@@ -21,6 +21,8 @@ class TextFieldComponent extends FormField<String> {
     List<Widget> Function(String query)? suffixWidgets,
     bool autoFocus = false,
     TapRegionCallback? onTapOutside,
+    TextInputType? keyboardType,
+    TextInputAction? textInputAction,
   }) : super(
          builder: (field) {
            return _Field(
@@ -38,6 +40,8 @@ class TextFieldComponent extends FormField<String> {
              maxLines: maxLines,
              suffixWidgets: suffixWidgets,
              autofocus: autoFocus,
+             keyboardType: keyboardType,
+             textInputAction: textInputAction,
            );
          },
        );
@@ -72,6 +76,8 @@ class _Field extends StatefulWidget {
     this.suffixWidgets,
     this.onTapOutside,
     required this.autofocus,
+    this.keyboardType,
+    this.textInputAction,
   });
 
   final FormFieldState<String> field;
@@ -88,6 +94,8 @@ class _Field extends StatefulWidget {
   final TextEditingController? controller;
   final List<Widget> Function(String query)? suffixWidgets;
   final bool autofocus;
+  final TextInputType? keyboardType;
+  final TextInputAction? textInputAction;
 
   @override
   State<_Field> createState() => __FieldState();
@@ -141,6 +149,8 @@ class __FieldState extends State<_Field> {
             validator: widget.validator,
             onChanged: widget.onChanged,
             onTapOutside: widget.onTapOutside,
+            keyboardType: widget.keyboardType,
+            textInputAction: widget.textInputAction,
             decoration: InputDecoration(
               errorText: field.errorText,
               hintText: widget.hintText,
