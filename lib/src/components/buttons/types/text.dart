@@ -12,6 +12,8 @@ class TextButtonComponent extends ButtonComponent {
     super.onPressed,
     required String text,
     super.icon,
+    super.style,
+    super.padding,
   }) : super(text: text);
 
   @override
@@ -19,15 +21,25 @@ class TextButtonComponent extends ButtonComponent {
     if (icon != null) {
       return _disabled(
         TextButton.icon(
+          style: TextButton.styleFrom(
+            iconSize: iconSize,
+            padding: padding ?? const EdgeInsets.all(4),
+          ),
           onPressed: onPressed,
-          label: Text(text!),
+          label: Text(text!, style: style),
           icon: Icon(icon),
         ),
         onPressed,
       );
     }
     return _disabled(
-      TextButton(onPressed: onPressed, child: Text(text!)),
+      TextButton(
+        style: TextButton.styleFrom(
+          padding: padding ?? const EdgeInsets.all(4),
+        ),
+        onPressed: onPressed,
+        child: Text(text!, style: style),
+      ),
       onPressed,
     );
   }

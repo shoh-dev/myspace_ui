@@ -25,6 +25,7 @@ abstract class ButtonComponent extends StatelessWidget {
     this.elevation,
     this.shadowColor,
     this.isLoading = false,
+    this.style,
   });
 
   final VoidCallback? onPressed;
@@ -38,6 +39,7 @@ abstract class ButtonComponent extends StatelessWidget {
   final EdgeInsets? padding;
   final double? elevation;
   final bool isLoading;
+  final TextStyle? style;
 
   const factory ButtonComponent.outlined({
     VoidCallback? onPressed,
@@ -56,6 +58,8 @@ abstract class ButtonComponent extends StatelessWidget {
     VoidCallback? onPressed,
     required String text,
     IconData? icon,
+    TextStyle? style,
+    EdgeInsets? padding,
   }) = TextButtonComponent;
 
   const factory ButtonComponent.icon({

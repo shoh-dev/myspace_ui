@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 
-class AppTheme {
+abstract class AppTheme {
+  ThemeData get lightTheme;
+  ThemeData get darkTheme;
+}
+
+class MySpaceTheme extends AppTheme {
   final double? borderRadius;
-  // final Color? seedLight;
-  // final Color? seedDark;
-  // final Color? surfaceDark;
-  // final Color? surfaceLight;
   final ColorScheme _colorSchemeLight;
   final Color? _scaffoldBackgroundColorLight;
   final ColorScheme _colorSchemeDark;
   final Color? _scaffoldBackgroundColorDark;
 
-  AppTheme({
+  MySpaceTheme({
     this.borderRadius,
     ColorScheme? colorSchemeDark,
     ColorScheme? colorSchemeLight,
@@ -21,17 +22,6 @@ class AppTheme {
        _colorSchemeLight = colorSchemeLight ?? const ColorScheme.light(),
        _scaffoldBackgroundColorLight = scaffoldBackgroundColorLight,
        _scaffoldBackgroundColorDark = scaffoldBackgroundColorDark;
-
-  // late final _colorSchemeLight = ColorScheme.fromSeed(
-  //   seedColor: seedLight ?? Colors.blue,
-  //   brightness: Brightness.light,
-  //   surface: surfaceLight,
-  // );
-  // late final _colorSchemeDark = ColorScheme.fromSeed(
-  //   seedColor: seedDark ?? Colors.blue,
-  //   brightness: Brightness.dark,
-  //   surface: surfaceDark,
-  // );
 
   final _textThemeLight = ThemeData.light().textTheme;
   final _textThemeDark = ThemeData.dark().textTheme;
@@ -43,7 +33,7 @@ class AppTheme {
             : BorderRadius.zero,
   );
 
-  // Filled Button Theme Data
+  //! Filled Button Theme Data
 
   late final _filledButtonThemeDataLight = FilledButtonThemeData(
     style: FilledButton.styleFrom(shape: _border),
@@ -52,9 +42,9 @@ class AppTheme {
     style: FilledButton.styleFrom(shape: _border),
   );
 
-  // Filled Button Theme Data End
+  //? Filled Button Theme Data End
 
-  // Outlined Button Theme Data
+  //! Outlined Button Theme Data
 
   late final _outlinedButtonThemeDataLight = OutlinedButtonThemeData(
     style: OutlinedButton.styleFrom(shape: _border),
@@ -63,9 +53,9 @@ class AppTheme {
     style: OutlinedButton.styleFrom(shape: _border),
   );
 
-  // Outlined Button Theme Data End
+  //? Outlined Button Theme Data End
 
-  // Text Button Theme Data
+  //! Text Button Theme Data
 
   late final _textButtonThemeDataLight = TextButtonThemeData(
     style: TextButton.styleFrom(shape: _border),
@@ -74,15 +64,15 @@ class AppTheme {
     style: TextButton.styleFrom(shape: _border),
   );
 
-  // Text Button Theme Data End
+  //? Text Button Theme Data End
 
-  // Icon Button Theme Data
+  //! Icon Button Theme Data
 
   late final _iconButtonThemeDataLight = IconButtonThemeData(
     style: IconButton.styleFrom(
       shape: _border,
-      backgroundColor: _colorSchemeLight.primaryContainer,
-      foregroundColor: _colorSchemeLight.primary,
+      backgroundColor: _colorSchemeLight.primary,
+      foregroundColor: _colorSchemeLight.onPrimary,
     ),
   );
   late final _iconButtonThemeDataDark = IconButtonThemeData(
@@ -93,9 +83,9 @@ class AppTheme {
     ),
   );
 
-  // Icon Button Theme Data End
+  //? Icon Button Theme Data End
 
-  // Input Theme Data Start
+  //! Input Theme Data Start
 
   late final _textFieldThemeDataLight = InputDecorationTheme(
     filled: true,
@@ -131,7 +121,6 @@ class AppTheme {
       borderRadius: _border.borderRadius as BorderRadius,
     ),
   );
-
   late final _textFieldThemeDataDark = InputDecorationTheme(
     filled: true,
     contentPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
@@ -167,17 +156,9 @@ class AppTheme {
     ),
   );
 
-  // Input Theme Data End
+  //? Input Theme Data End
 
-  // // Menu Theme Data Start
-
-  // late final _menuThemeDataLight = const MenuThemeData();
-
-  // late final _menuThemeDataDark = const MenuThemeData();
-
-  // // Menu Theme Data End
-
-  // Dropdown Menu Theme Data Start
+  //! Dropdown Menu Theme Data Start
 
   late final _dropdownMenuThemeDataLight = DropdownMenuThemeData(
     inputDecorationTheme: _textFieldThemeDataLight,
@@ -187,7 +168,6 @@ class AppTheme {
       ),
     ),
   );
-
   late final _dropdownMenuThemeDataDark = DropdownMenuThemeData(
     inputDecorationTheme: _textFieldThemeDataDark,
     menuStyle: MenuStyle(
@@ -195,37 +175,35 @@ class AppTheme {
     ),
   );
 
-  // Dropdown Menu Theme Data End
+  //? Dropdown Menu Theme Data End
 
-  // Popup Menu  Theme Data Start
+  //! Popup Menu Theme Data Start
 
   late final _popupMenuThemeDataLight = PopupMenuThemeData(
     shape: _border,
     position: PopupMenuPosition.under,
     elevation: 4,
   );
-
   late final _popupMenuThemeDataDark = PopupMenuThemeData(
     shape: _border,
     position: PopupMenuPosition.under,
     elevation: 4,
   );
 
-  // Popup Menu Theme Data End
+  //? Popup Menu Theme Data End
 
-  // Card Theme Data Start
+  //! Card Theme Data Start
 
   late final _cardThemeDataLight = CardThemeData(
     shape: RoundedRectangleBorder(borderRadius: _border.borderRadius),
   );
-
   late final _cardThemeDataDark = CardThemeData(
     shape: RoundedRectangleBorder(borderRadius: _border.borderRadius),
   );
 
-  // Card Theme Data End
+  //? Card Theme Data End
 
-  // Expansion Panel Theme Data Start
+  //! Expansion Panel Theme Data Start
 
   late final _expansionPanelThemeDataLight = ExpansionTileThemeData(
     backgroundColor: _colorSchemeLight.surfaceContainerHighest,
@@ -233,7 +211,6 @@ class AppTheme {
     shape: RoundedRectangleBorder(borderRadius: _border.borderRadius / 2),
     collapsedShape: RoundedRectangleBorder(borderRadius: _border.borderRadius),
   );
-
   late final _expansionPanelThemeDataDark = ExpansionTileThemeData(
     backgroundColor: _colorSchemeDark.surfaceContainerHighest,
     collapsedBackgroundColor: _colorSchemeDark.surfaceContainerHighest,
@@ -241,35 +218,30 @@ class AppTheme {
     collapsedShape: RoundedRectangleBorder(borderRadius: _border.borderRadius),
   );
 
-  // Expansion Panel Theme Data End
+  //? Expansion Panel Theme Data End
 
-  // Slider Theme Data Start
+  //! Slider Theme Data Start
 
   late final _sliderThemeDataLight = SliderThemeData(
     activeTrackColor: _colorSchemeLight.primary,
     inactiveTrackColor: _colorSchemeLight.primaryFixedDim,
   );
-
   late final _sliderThemeDataDark = SliderThemeData(
     activeTrackColor: _colorSchemeDark.primary,
     inactiveTrackColor: _colorSchemeDark.primaryFixedDim,
   );
 
-  // Slider Theme Data End
+  //? Slider Theme Data End
 
-  // AppBar Theme Data Start
+  //! AppBar Theme Data Start
 
   late final _appBarThemeDataLight = AppBarTheme(
     backgroundColor: _colorSchemeLight.surface,
   );
 
-  late final _appBarThemeDataDark = AppBarTheme(
-    backgroundColor: _colorSchemeDark.surface,
-  );
+  //? AppBar Theme Data End
 
-  // AppBar Theme Data End
-
-  // Floating Action Button Theme Data Start
+  //! Floating Action Button Theme Data Start
 
   late final _floatingActionButtonThemeDataLight =
       FloatingActionButtonThemeData(
@@ -277,14 +249,29 @@ class AppTheme {
         foregroundColor: _colorSchemeLight.onPrimary,
       );
 
-  late final _floatingActionButtonThemeDataDark = FloatingActionButtonThemeData(
-    backgroundColor: _colorSchemeDark.primary,
-    foregroundColor: _colorSchemeDark.onPrimary,
+  //? Floating Action Button Theme Data End
+
+  //! Bottom Navigation Bar Theme Data Start
+
+  late final _bottomNavigationBarThemeDataLight = BottomNavigationBarThemeData(
+    backgroundColor: _colorSchemeLight.surface,
+    selectedItemColor: _colorSchemeLight.primary,
+    unselectedItemColor: _colorSchemeLight.onSurface.withValues(alpha: 0.38),
   );
 
-  // Floating Action Button Theme Data End
+  //? Bottom Navigation Bar Theme Data End
 
+  //! Divider Theme Data Start
+
+  late final _dividerThemeDataLight = DividerThemeData(
+    color: _colorSchemeLight.outline,
+  );
+
+  //? Divider Theme Data End
+
+  @override
   late final ThemeData lightTheme = ThemeData.light().copyWith(
+    dividerTheme: _dividerThemeDataLight,
     floatingActionButtonTheme: _floatingActionButtonThemeDataLight,
     scaffoldBackgroundColor:
         _scaffoldBackgroundColorLight ?? _colorSchemeLight.surface,
@@ -296,14 +283,15 @@ class AppTheme {
     textButtonTheme: _textButtonThemeDataLight,
     iconButtonTheme: _iconButtonThemeDataLight,
     inputDecorationTheme: _textFieldThemeDataLight,
-    // menuTheme: _menuThemeDataLight,
     dropdownMenuTheme: _dropdownMenuThemeDataLight,
     popupMenuTheme: _popupMenuThemeDataLight,
     cardTheme: _cardThemeDataLight,
     expansionTileTheme: _expansionPanelThemeDataLight,
     sliderTheme: _sliderThemeDataLight,
+    bottomNavigationBarTheme: _bottomNavigationBarThemeDataLight,
   );
 
+  @override
   late final ThemeData darkTheme = ThemeData.dark().copyWith(
     scaffoldBackgroundColor:
         _scaffoldBackgroundColorDark ?? _colorSchemeDark.surface,
@@ -314,7 +302,6 @@ class AppTheme {
     textButtonTheme: _textButtonThemeDataDark,
     iconButtonTheme: _iconButtonThemeDataDark,
     inputDecorationTheme: _textFieldThemeDataDark,
-    // menuTheme: _menuThemeDataDark,
     dropdownMenuTheme: _dropdownMenuThemeDataDark,
     popupMenuTheme: _popupMenuThemeDataDark,
     cardTheme: _cardThemeDataDark,

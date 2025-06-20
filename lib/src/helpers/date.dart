@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 extension DateTimeHelpers on DateTime {
   bool isToday() {
     final now = DateTime.now();
@@ -18,5 +16,16 @@ extension DateTimeHelpers on DateTime {
     return year == tomorrow.year &&
         month == tomorrow.month &&
         day == tomorrow.day;
+  }
+
+  //return Good morning, good afternoon, good evening based on the time of day
+  String toGreeting() {
+    if (hour >= 6 && hour < 12) {
+      return 'Good morning';
+    } else if (hour >= 12 && hour < 18) {
+      return 'Good afternoon';
+    } else {
+      return 'Good evening';
+    }
   }
 }

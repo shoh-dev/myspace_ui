@@ -1,4 +1,5 @@
 import 'package:bot_toast/bot_toast.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class SuccessDialog extends StatelessWidget {
@@ -15,10 +16,20 @@ class SuccessDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
+    final isAndroid = Theme.of(context).platform == TargetPlatform.android;
+    if (isAndroid) {
+      return AlertDialog(
+        title: Text(title ?? "Success"),
+        content: Text(content),
+        actions: [TextButton(onPressed: onClose, child: Text('Close'))],
+      );
+    }
+    return CupertinoAlertDialog(
       title: Text(title ?? "Success"),
       content: Text(content),
-      actions: [TextButton(onPressed: onClose, child: Text('Close'))],
+      actions: [
+        CupertinoDialogAction(onPressed: onClose, child: Text('Close')),
+      ],
     );
   }
 

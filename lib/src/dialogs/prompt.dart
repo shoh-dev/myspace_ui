@@ -1,4 +1,5 @@
 import 'package:bot_toast/bot_toast.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:myspace_ui/myspace_ui.dart';
 
@@ -24,24 +25,42 @@ class PromptDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      title: TextComponent.any(title ?? "Attention"),
-      content: TextComponent.any(content),
-      actions: [
-        ButtonComponent.text(
-          onPressed: onLeftClick,
-          text: leftButtonText ?? "No",
-        ),
-        if (!isDestructive)
+    final isAndroid = Theme.of(context).platform == TargetPlatform.android;
+    if (isAndroid) {
+      return AlertDialog(
+        title: TextComponent.any(title ?? "Attention"),
+        content: TextComponent.any(content),
+        actions: [
           ButtonComponent.text(
-            onPressed: onRightClick,
-            text: rightButtonText ?? "Yes",
-          )
-        else
-          ButtonComponent.destructive(
-            onPressed: onRightClick,
-            text: rightButtonText ?? "Yes",
+            onPressed: onLeftClick,
+            text: leftButtonText ?? "No",
           ),
+          if (isDestructive)
+            ButtonComponent.destructive(
+              onPressed: onRightClick,
+              text: rightButtonText ?? "Yes",
+            )
+          else
+            ButtonComponent.text(
+              onPressed: onRightClick,
+              text: rightButtonText ?? "Yes",
+            ),
+        ],
+      );
+    }
+    return CupertinoAlertDialog(
+      title: Text(title ?? "Attention"),
+      content: Text(content),
+      actions: [
+        CupertinoDialogAction(
+          onPressed: onLeftClick,
+          child: Text(leftButtonText ?? "No"),
+        ),
+        CupertinoDialogAction(
+          onPressed: onRightClick,
+          isDestructiveAction: isDestructive,
+          child: Text(rightButtonText ?? "Yes"),
+        ),
       ],
     );
   }

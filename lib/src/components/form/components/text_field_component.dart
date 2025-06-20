@@ -23,6 +23,8 @@ class TextFieldComponent extends FormField<String> {
     TapRegionCallback? onTapOutside,
     TextInputType? keyboardType,
     TextInputAction? textInputAction,
+    bool? readOnly,
+    VoidCallback? onTap,
   }) : super(
          builder: (field) {
            return _Field(
@@ -42,6 +44,8 @@ class TextFieldComponent extends FormField<String> {
              autofocus: autoFocus,
              keyboardType: keyboardType,
              textInputAction: textInputAction,
+             onTap: onTap,
+             readOnly: readOnly ?? false,
            );
          },
        );
@@ -78,6 +82,8 @@ class _Field extends StatefulWidget {
     required this.autofocus,
     this.keyboardType,
     this.textInputAction,
+    this.readOnly = false,
+    this.onTap,
   });
 
   final FormFieldState<String> field;
@@ -96,6 +102,8 @@ class _Field extends StatefulWidget {
   final bool autofocus;
   final TextInputType? keyboardType;
   final TextInputAction? textInputAction;
+  final bool readOnly;
+  final VoidCallback? onTap;
 
   @override
   State<_Field> createState() => __FieldState();
@@ -119,7 +127,7 @@ class __FieldState extends State<_Field> {
   @override
   void initState() {
     _controller = widget.controller ?? TextEditingController();
-    _controller.text = widget.initialValue ?? "";
+    _controller.text = widget.initialValue ?? widget.controller?.text ?? "";
     _controller.addListener(() {
       field.didChange(_controller.text);
       if (widget.canClear) {
@@ -142,48 +150,27 @@ class __FieldState extends State<_Field> {
         children: [
           if (widget.label != null)
             FormFieldLabel(widget.label!, hasError: field.hasError),
-          TextFormField(
+          TextField(
+            readOnly: widget.readOnly,
+            onTap: widget.onTap,
             autofocus: widget.autofocus,
             controller: _controller,
             maxLines: widget.maxLines,
-            validator: widget.validator,
-            onChanged: widget.onChanged,
+            // validator: widget.validator,
+            onChanged: (value) {
+              field.didChange(value);
+              widget.onChanged?.call(value);
+            },
             onTapOutside: widget.onTapOutside,
             keyboardType: widget.keyboardType,
             textInputAction: widget.textInputAction,
             decoration: InputDecoration(
               errorText: field.errorText,
               hintText: widget.hintText,
-              // labelText: widget.label,
-              // floatingLabelBehavior: FloatingLabelBehavior.auto,
-              // labelStyle: context.textTheme.bodyLarge,
               suffixIcon:
                   !widget.enabled
                       ? null
-                      :
-                      // : canShowResetButton
-                      // ? Transform.scale(
-                      //   scale: .8,
-                      //   alignment: Alignment.centerRight,
-                      //   child: Row(
-                      //     mainAxisSize: MainAxisSize.min,
-                      //     spacing: 8,
-                      //     children: [
-                      //       if (widget.suffixWidgets != null)
-                      //         for (var icon in widget.suffixWidgets!(
-                      //           _controller.text,
-                      //         ))
-                      //           icon,
-                      //       ButtonComponent.iconOutlined(
-                      //         icon: Icons.clear_rounded,
-                      //         onPressed: () => reset(field.context),
-                      //       ),
-                      //       const SizedBox(width: 1),
-                      //     ],
-                      //   ),
-                      // )
-                      // :
-                      widget.suffixWidgets != null
+                      : widget.suffixWidgets != null
                       ? Transform.scale(
                         scale: .8,
                         alignment: Alignment.centerRight,

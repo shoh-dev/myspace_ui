@@ -1,4 +1,5 @@
 import 'package:bot_toast/bot_toast.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ErrorDialog extends StatelessWidget {
@@ -17,12 +18,26 @@ class ErrorDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
+    final isAndroid = Theme.of(context).platform == TargetPlatform.android;
+    if (isAndroid) {
+      return AlertDialog(
+        title: Text(title ?? "Error"),
+        content: Text(content),
+        actions: [
+          if (actionCallback != null && actionText != null)
+            TextButton(onPressed: actionCallback, child: Text(actionText!)),
+        ],
+      );
+    }
+    return CupertinoAlertDialog(
       title: Text(title ?? "Error"),
       content: Text(content),
       actions: [
         if (actionCallback != null && actionText != null)
-          TextButton(onPressed: actionCallback, child: Text(actionText!)),
+          CupertinoDialogAction(
+            onPressed: actionCallback,
+            child: Text(actionText!),
+          ),
       ],
     );
   }
