@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -65,35 +67,50 @@ class PromptDialog extends StatelessWidget {
     );
   }
 
-  static CancelFunc show(
+  static Future<bool?> show(
     String content, {
     String? title,
     String? leftButtonText,
     String? rightButtonText,
-    void Function(CancelFunc close)? onLeftClick,
-    required void Function(CancelFunc close) onRightClick,
+    FutureOr Function(CancelFunc close)? onLeftClick,
+    required FutureOr<void> Function(CancelFunc close) onRightClick,
     bool dismissable = false,
     bool isDestructive = false,
   }) {
-    return BotToast.showEnhancedWidget(
+    final completer = Completer<bool?>();
+    BotToast.showEnhancedWidget(
       backgroundColor: Colors.black54,
       clickClose: dismissable,
       allowClick: false,
       onlyOne: true,
       backButtonBehavior: BackButtonBehavior.ignore,
+      onClose: () {
+        if (!completer.isCompleted) {
+          completer.complete(null);
+        }
+      },
       toastBuilder:
           (cancelFunc) => PromptDialog(
             title: title,
             content: content,
             isDestructive: isDestructive,
-            onLeftClick:
-                onLeftClick != null
-                    ? () => onLeftClick(cancelFunc)
-                    : () => cancelFunc(),
-            onRightClick: () => onRightClick(cancelFunc),
+            onLeftClick: () async {
+              if (onLeftClick != null) {
+                await onLeftClick(cancelFunc);
+              } else {
+                cancelFunc();
+              }
+              completer.complete(false);
+            },
+            onRightClick: () async {
+              await onRightClick(cancelFunc);
+              completer.complete(true);
+            },
             rightButtonText: rightButtonText,
             leftButtonText: leftButtonText,
           ),
     );
+
+    return completer.future;
   }
 }

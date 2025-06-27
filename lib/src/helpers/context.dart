@@ -31,4 +31,9 @@ extension BuildContextHelpers on BuildContext {
   void unfocus() {
     FocusScope.of(this).unfocus();
   }
+
+  //show a snackbar with a message
+  void showSnackbar(String message) {
+    ScaffoldMessenger.of(this).showSnackBar(SnackBar(content: Text(message)));
+  }
 }

@@ -89,7 +89,7 @@ class MySpaceTheme extends AppTheme {
 
   late final _textFieldThemeDataLight = InputDecorationTheme(
     filled: true,
-    contentPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+    // contentPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
     fillColor: _colorSchemeLight.surface,
     floatingLabelBehavior: FloatingLabelBehavior.never,
     hintStyle: TextStyle(

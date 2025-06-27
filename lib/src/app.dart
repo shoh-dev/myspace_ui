@@ -28,6 +28,7 @@ class UIApp extends StatelessWidget {
     final appTheme = theme?.call(context) ?? MySpaceTheme();
     final themeMode = this.themeMode?.call(context) ?? ThemeMode.system;
     return MaterialApp.router(
+      debugShowCheckedModeBanner: false,
       routerConfig: routerConfig,
       theme: appTheme.lightTheme,
       darkTheme: appTheme.darkTheme,

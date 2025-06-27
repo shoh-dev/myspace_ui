@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -33,24 +35,41 @@ class InfoDialog extends StatelessWidget {
     );
   }
 
-  static CancelFunc show(
+  static Future<void> show(
     String info, {
     String? title,
     bool dismissable = true,
     void Function(CancelFunc close)? onClose,
   }) {
-    return BotToast.showEnhancedWidget(
+    final completer = Completer<Null>();
+    BotToast.showEnhancedWidget(
       backgroundColor: Colors.black38,
       clickClose: dismissable,
       allowClick: false,
       onlyOne: true,
       backButtonBehavior: BackButtonBehavior.ignore,
+      onClose: () {
+        if (!completer.isCompleted) {
+          completer.complete();
+        }
+      },
       toastBuilder:
           (cancelFunc) => InfoDialog(
             title: title,
             content: info,
-            onClose: onClose != null ? () => onClose(cancelFunc) : cancelFunc,
+            onClose:
+                onClose != null
+                    ? () {
+                      completer.complete();
+                      onClose(cancelFunc);
+                    }
+                    : () {
+                      completer.complete();
+                      cancelFunc();
+                    },
           ),
     );
+
+    return completer.future;
   }
 }

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -33,24 +35,42 @@ class SuccessDialog extends StatelessWidget {
     );
   }
 
-  static CancelFunc show(
-    String info, {
+  static Future<void> show(
+    String content, {
     String? title,
     bool dismissable = true,
     void Function(CancelFunc close)? onClose,
   }) {
-    return BotToast.showEnhancedWidget(
+    final completer = Completer<Null>();
+
+    BotToast.showEnhancedWidget(
       backgroundColor: Colors.black38,
       clickClose: dismissable,
       allowClick: false,
       onlyOne: true,
       backButtonBehavior: BackButtonBehavior.ignore,
+      onClose: () {
+        if (!completer.isCompleted) {
+          completer.complete();
+        }
+      },
       toastBuilder:
           (cancelFunc) => SuccessDialog(
             title: title,
-            content: info,
-            onClose: onClose != null ? () => onClose(cancelFunc) : cancelFunc,
+            content: content,
+            onClose:
+                onClose != null
+                    ? () {
+                      completer.complete();
+                      onClose(cancelFunc);
+                    }
+                    : () {
+                      completer.complete();
+                      cancelFunc();
+                    },
           ),
     );
+
+    return completer.future;
   }
 }

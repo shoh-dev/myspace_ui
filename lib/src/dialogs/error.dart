@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -42,26 +44,44 @@ class ErrorDialog extends StatelessWidget {
     );
   }
 
-  static CancelFunc show(
+  static Future<void> show(
     String error, {
     String? title,
     bool dismissable = true,
     void Function(CancelFunc close)? onClose,
+    String? actionText,
   }) {
-    return BotToast.showEnhancedWidget(
+    final completer = Completer<Null>();
+
+    BotToast.showEnhancedWidget(
       backgroundColor: Colors.black54,
       clickClose: dismissable,
       allowClick: false,
       onlyOne: true,
       backButtonBehavior: BackButtonBehavior.ignore,
+      onClose: () {
+        if (!completer.isCompleted) {
+          completer.complete();
+        }
+      },
       toastBuilder:
           (cancelFunc) => ErrorDialog(
             title: title,
             content: error,
-            actionText: "Close",
+            actionText: actionText ?? "Close",
             actionCallback:
-                onClose != null ? () => onClose(cancelFunc) : cancelFunc,
+                onClose != null
+                    ? () {
+                      completer.complete();
+                      onClose(cancelFunc);
+                    }
+                    : () {
+                      completer.complete();
+                      cancelFunc();
+                    },
           ),
     );
+
+    return completer.future;
   }
 }
