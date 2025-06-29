@@ -28,5 +28,6 @@ abstract class TextComponent extends StatelessWidget {
     DateTime date, {
     TextStyle? style,
     DateFormat? format,
+    String Function(String formattedDate)? builder,
   }) = DateTextComponent;
 }

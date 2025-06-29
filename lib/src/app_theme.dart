@@ -27,10 +27,9 @@ class MySpaceTheme extends AppTheme {
   final _textThemeDark = ThemeData.dark().textTheme;
 
   late final _border = RoundedRectangleBorder(
-    borderRadius:
-        borderRadius != null
-            ? BorderRadius.circular(borderRadius!)
-            : BorderRadius.zero,
+    borderRadius: borderRadius != null
+        ? BorderRadius.circular(borderRadius!)
+        : BorderRadius.zero,
   );
 
   //! Filled Button Theme Data
@@ -47,7 +46,10 @@ class MySpaceTheme extends AppTheme {
   //! Outlined Button Theme Data
 
   late final _outlinedButtonThemeDataLight = OutlinedButtonThemeData(
-    style: OutlinedButton.styleFrom(shape: _border),
+    style: OutlinedButton.styleFrom(
+      side: BorderSide(color: Colors.grey.shade500),
+      shape: _border,
+    ),
   );
   late final _outlinedButtonThemeDataDark = OutlinedButtonThemeData(
     style: OutlinedButton.styleFrom(shape: _border),
@@ -113,11 +115,11 @@ class MySpaceTheme extends AppTheme {
       borderRadius: _border.borderRadius as BorderRadius,
     ),
     enabledBorder: OutlineInputBorder(
-      borderSide: BorderSide(color: _colorSchemeLight.outline, width: 0),
+      borderSide: BorderSide(color: Colors.grey.shade500, width: 1),
       borderRadius: _border.borderRadius as BorderRadius,
     ),
     disabledBorder: OutlineInputBorder(
-      borderSide: const BorderSide(color: Colors.transparent, width: 0),
+      borderSide: const BorderSide(color: Colors.transparent, width: 1),
       borderRadius: _border.borderRadius as BorderRadius,
     ),
   );
@@ -264,10 +266,23 @@ class MySpaceTheme extends AppTheme {
   //! Divider Theme Data Start
 
   late final _dividerThemeDataLight = DividerThemeData(
-    color: _colorSchemeLight.outline,
+    color: Colors.grey.shade400,
   );
 
   //? Divider Theme Data End
+
+  //? Dialog Theme Data Start
+
+  late final _dialogThemeDataLight = DialogThemeData(
+    shape: RoundedRectangleBorder(borderRadius: _border.borderRadius),
+    titleTextStyle: TextStyle(
+      fontSize: 20,
+      fontWeight: FontWeight.w500,
+      color: _colorSchemeLight.onSurface,
+    ),
+  );
+
+  //? Dialog Theme Data End
 
   @override
   late final ThemeData lightTheme = ThemeData.light().copyWith(
@@ -289,6 +304,7 @@ class MySpaceTheme extends AppTheme {
     expansionTileTheme: _expansionPanelThemeDataLight,
     sliderTheme: _sliderThemeDataLight,
     bottomNavigationBarTheme: _bottomNavigationBarThemeDataLight,
+    dialogTheme: _dialogThemeDataLight,
   );
 
   @override

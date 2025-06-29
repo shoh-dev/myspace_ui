@@ -23,4 +23,13 @@ extension StringHelpers on String {
       return null;
     }
   }
+
+  List<String>? splitOrNull(String separator) {
+    try {
+      if (isEmpty) return [];
+      return split(separator);
+    } catch (e) {
+      return null;
+    }
+  }
 }

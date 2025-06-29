@@ -116,7 +116,6 @@ class __FieldState extends State<_Field> {
   @override
   void dispose() {
     if (widget.controller == null) _controller.dispose();
-    log('_Field dispose');
     super.dispose();
   }
 
@@ -167,33 +166,31 @@ class __FieldState extends State<_Field> {
             decoration: InputDecoration(
               errorText: field.errorText,
               hintText: widget.hintText,
-              suffixIcon:
-                  !widget.enabled
-                      ? null
-                      : widget.suffixWidgets != null
-                      ? Transform.scale(
-                        scale: .8,
-                        alignment: Alignment.centerRight,
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            for (var icon in widget.suffixWidgets!(
-                              _controller.text,
-                            ))
-                              icon,
-                            if (canShowResetButton)
-                              ButtonComponent.iconOutlined(
-                                icon: Icons.clear_rounded,
-                                onPressed:
-                                    _controller.text.isEmpty
-                                        ? null
-                                        : () => reset(field.context),
-                              ),
-                            const SizedBox(width: 6),
-                          ],
-                        ),
-                      )
-                      : null,
+              suffixIcon: !widget.enabled
+                  ? null
+                  : widget.suffixWidgets != null
+                  ? Transform.scale(
+                      scale: .8,
+                      alignment: Alignment.centerRight,
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          for (var icon in widget.suffixWidgets!(
+                            _controller.text,
+                          ))
+                            icon,
+                          if (canShowResetButton)
+                            ButtonComponent.iconOutlined(
+                              icon: Icons.clear_rounded,
+                              onPressed: _controller.text.isEmpty
+                                  ? null
+                                  : () => reset(field.context),
+                            ),
+                          const SizedBox(width: 6),
+                        ],
+                      ),
+                    )
+                  : null,
             ),
             enabled: widget.enabled,
           ),
