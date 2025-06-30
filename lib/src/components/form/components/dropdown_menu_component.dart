@@ -129,13 +129,11 @@ class __MenuState<T> extends State<_Menu<T>> {
                 DropdownMenuEntry(
                   value: item,
                   label: item.label,
-                  leadingIcon:
-                      item.icon != null ? Icon(item.icon, size: 18) : null,
+                  leadingIcon: item.icon,
                   enabled: item.enabled,
-                  trailingIcon:
-                      item.value == field.value?.value
-                          ? const Icon(Icons.check)
-                          : null,
+                  trailingIcon: item.value == field.value?.value
+                      ? const Icon(Icons.check)
+                      : null,
                 ),
             ],
             searchCallback: (entries, query) {
@@ -147,16 +145,15 @@ class __MenuState<T> extends State<_Menu<T>> {
               });
               return index == -1 ? null : index;
             },
-            leadingIcon:
-                canShowResetButton
-                    ? Transform.scale(
-                      scale: .6,
-                      child: ButtonComponent.iconOutlined(
-                        icon: Icons.clear_rounded,
-                        onPressed: () => reset(context),
-                      ),
-                    )
-                    : null,
+            leadingIcon: canShowResetButton
+                ? Transform.scale(
+                    scale: .6,
+                    child: ButtonComponent.iconOutlined(
+                      icon: Icon(Icons.clear_rounded),
+                      onPressed: () => reset(context),
+                    ),
+                  )
+                : null,
             initialSelection: widget.initialValue,
             hintText: widget.hintText,
             enabled: widget.enabled,

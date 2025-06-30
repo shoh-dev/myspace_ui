@@ -21,7 +21,7 @@ class OutlinedButtonComponent extends ButtonComponent {
         OutlinedButton.icon(
           onPressed: onPressed,
           label: Text(text!),
-          icon: Icon(icon),
+          icon: icon,
         ),
         onPressed,
       );

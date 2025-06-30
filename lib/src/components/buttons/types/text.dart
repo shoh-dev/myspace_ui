@@ -14,6 +14,7 @@ class TextButtonComponent extends ButtonComponent {
     super.icon,
     super.style,
     super.padding,
+    super.foregroundColor,
   }) : super(text: text);
 
   @override
@@ -23,11 +24,12 @@ class TextButtonComponent extends ButtonComponent {
         TextButton.icon(
           style: TextButton.styleFrom(
             iconSize: iconSize,
-            padding: padding ?? const EdgeInsets.all(4),
+            padding: padding,
+            foregroundColor: foregroundColor,
           ),
           onPressed: onPressed,
           label: Text(text!, style: style),
-          icon: Icon(icon),
+          icon: icon,
         ),
         onPressed,
       );
@@ -35,7 +37,8 @@ class TextButtonComponent extends ButtonComponent {
     return _disabled(
       TextButton(
         style: TextButton.styleFrom(
-          padding: padding ?? const EdgeInsets.all(4),
+          padding: padding,
+          foregroundColor: foregroundColor,
         ),
         onPressed: onPressed,
         child: Text(text!, style: style),

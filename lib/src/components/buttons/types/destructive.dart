@@ -21,7 +21,7 @@ class DestructiveButtonComponent extends ButtonComponent {
         FilledButton.icon(
           onPressed: onPressed,
           label: Text(text!),
-          icon: Icon(icon),
+          icon: icon,
           style: FilledButton.styleFrom(
             backgroundColor: context.colorScheme.error,
           ),

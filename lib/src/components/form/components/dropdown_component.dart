@@ -111,7 +111,7 @@ class __MenuState<T> extends State<_Menu<T>> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       if (item.icon != null) ...[
-                        Icon(item.icon, size: 18),
+                        item.icon!,
                         const SizedBox(width: 4),
                       ],
                       Expanded(child: Text(item.label)),
@@ -123,10 +123,10 @@ class __MenuState<T> extends State<_Menu<T>> {
             ],
             value:
                 widget.items.any(
-                      (element) => element.value == widget.initialValue?.value,
-                    )
-                    ? field.value
-                    : null,
+                  (element) => element.value == widget.initialValue?.value,
+                )
+                ? field.value
+                : null,
             hint: widget.hintText != null ? Text(widget.hintText!) : null,
             selectedItemBuilder: (context) {
               return [for (final item in widget.items) Text(item.label)];

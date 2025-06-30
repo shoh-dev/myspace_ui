@@ -33,3 +33,9 @@ extension StringHelpers on String {
     }
   }
 }
+
+extension StringNullHelpers on String? {
+  bool get isNotEmptyAndNull {
+    return this != null && this!.isNotEmpty;
+  }
+}

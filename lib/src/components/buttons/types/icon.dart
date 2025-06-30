@@ -8,7 +8,7 @@ Widget _disabled(Widget child, VoidCallback? onPressed) {
 
 class IconButtonComponent extends ButtonComponent {
   const IconButtonComponent({
-    required IconData super.icon,
+    required Widget super.icon,
     String? tooltip,
     super.key,
     super.onPressed,
@@ -26,7 +26,7 @@ class IconButtonComponent extends ButtonComponent {
       IconButton(
         tooltip: text,
         onPressed: onPressed,
-        icon: Icon(icon!),
+        icon: icon!,
         style: IconButton.styleFrom(
           iconSize: iconSize,
           padding: padding ?? const EdgeInsets.all(4),
@@ -48,7 +48,7 @@ class IconButtonComponent extends ButtonComponent {
 
 class IconButtonComponentDesctructive extends ButtonComponent {
   const IconButtonComponentDesctructive({
-    required IconData super.icon,
+    required Widget super.icon,
     String? tooltip,
     super.key,
     super.onPressed,
@@ -61,7 +61,7 @@ class IconButtonComponentDesctructive extends ButtonComponent {
       IconButton(
         tooltip: text,
         onPressed: onPressed,
-        icon: Icon(icon!),
+        icon: icon!,
         style: IconButton.styleFrom(
           iconSize: iconSize,
           backgroundColor: context.colorScheme.error,
@@ -81,7 +81,7 @@ class IconButtonComponentDesctructive extends ButtonComponent {
 
 class IconButtonComponentOutlined extends ButtonComponent {
   const IconButtonComponentOutlined({
-    required IconData super.icon,
+    required Widget super.icon,
     String? tooltip,
     super.key,
     super.onPressed,
@@ -95,7 +95,7 @@ class IconButtonComponentOutlined extends ButtonComponent {
       IconButton(
         tooltip: text,
         onPressed: onPressed,
-        icon: Icon(icon!),
+        icon: icon!,
         isSelected: true,
         style: IconButton.styleFrom(
           iconSize: iconSize,
@@ -106,10 +106,48 @@ class IconButtonComponentOutlined extends ButtonComponent {
             alpha: 0.3,
           ),
           side: BorderSide(
-            color:
-                onPressed == null
-                    ? context.colorScheme.outline.withValues(alpha: 0.3)
-                    : context.colorScheme.outline,
+            color: onPressed == null
+                ? context.colorScheme.outline.withValues(alpha: 0.3)
+                : context.colorScheme.outline,
+          ),
+        ),
+      ),
+      onPressed,
+    );
+  }
+}
+
+class IconButtonComponentPrimary extends ButtonComponent {
+  const IconButtonComponentPrimary({
+    required Widget super.icon,
+    String? tooltip,
+    super.key,
+    super.onPressed,
+    super.foregroundColor,
+    super.iconSize,
+  }) : super(text: tooltip);
+
+  @override
+  Widget build(BuildContext context) {
+    return _disabled(
+      IconButton(
+        tooltip: text,
+        onPressed: onPressed,
+        icon: icon!,
+        isSelected: true,
+        style: IconButton.styleFrom(
+          iconSize: iconSize,
+          padding: const EdgeInsets.all(4),
+          backgroundColor: context.colorScheme.primaryContainer,
+          foregroundColor:
+              foregroundColor ?? context.colorScheme.onPrimaryContainer,
+          disabledForegroundColor: context.colorScheme.onSurface.withValues(
+            alpha: 0.1,
+          ),
+          side: BorderSide(
+            color: onPressed == null
+                ? context.colorScheme.outline.withValues(alpha: 0.3)
+                : context.colorScheme.primary,
           ),
         ),
       ),

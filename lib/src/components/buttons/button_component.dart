@@ -30,7 +30,7 @@ abstract class ButtonComponent extends StatelessWidget {
 
   final VoidCallback? onPressed;
   final String? text;
-  final IconData? icon;
+  final Widget? icon;
   final Color? backgroundColor;
   final Color? foregroundColor;
   final Color? shadowColor;
@@ -44,27 +44,28 @@ abstract class ButtonComponent extends StatelessWidget {
   const factory ButtonComponent.outlined({
     VoidCallback? onPressed,
     required String text,
-    IconData? icon,
+    Widget? icon,
   }) = OutlinedButtonComponent;
 
   const factory ButtonComponent.primary({
     VoidCallback? onPressed,
     required String text,
-    IconData? icon,
+    Widget? icon,
     bool isLoading,
   }) = PrimaryButtonComponent;
 
   const factory ButtonComponent.text({
     VoidCallback? onPressed,
     required String text,
-    IconData? icon,
+    Widget? icon,
     TextStyle? style,
     EdgeInsets? padding,
+    Color? foregroundColor,
   }) = TextButtonComponent;
 
   const factory ButtonComponent.icon({
     VoidCallback? onPressed,
-    required IconData icon,
+    required Widget icon,
     String? tooltip,
     Color? backgroundColor,
     Color? foregroundColor,
@@ -77,18 +78,24 @@ abstract class ButtonComponent extends StatelessWidget {
   const factory ButtonComponent.destructive({
     VoidCallback? onPressed,
     required String text,
-    IconData? icon,
+    Widget? icon,
   }) = DestructiveButtonComponent;
 
   const factory ButtonComponent.iconOutlined({
     VoidCallback? onPressed,
-    required IconData icon,
+    required Widget icon,
     String? tooltip,
   }) = IconButtonComponentOutlined;
 
   const factory ButtonComponent.iconDesctructive({
     VoidCallback? onPressed,
-    required IconData icon,
+    required Widget icon,
     String? tooltip,
   }) = IconButtonComponentDesctructive;
+
+  const factory ButtonComponent.iconPrimary({
+    VoidCallback? onPressed,
+    required Widget icon,
+    String? tooltip,
+  }) = IconButtonComponentPrimary;
 }

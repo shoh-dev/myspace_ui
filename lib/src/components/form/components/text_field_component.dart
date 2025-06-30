@@ -1,6 +1,5 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:myspace_ui/myspace_ui.dart';
 import 'package:myspace_ui/src/components/shared/disabled_component.dart';
 
@@ -25,6 +24,8 @@ class TextFieldComponent extends FormField<String> {
     TextInputAction? textInputAction,
     bool? readOnly,
     VoidCallback? onTap,
+    bool obscureText = false,
+    int? maxLength,
   }) : super(
          builder: (field) {
            return _Field(
@@ -46,6 +47,8 @@ class TextFieldComponent extends FormField<String> {
              textInputAction: textInputAction,
              onTap: onTap,
              readOnly: readOnly ?? false,
+             obscureText: obscureText,
+             maxLength: maxLength,
            );
          },
        );
@@ -84,6 +87,8 @@ class _Field extends StatefulWidget {
     this.textInputAction,
     this.readOnly = false,
     this.onTap,
+    this.obscureText = false,
+    this.maxLength,
   });
 
   final FormFieldState<String> field;
@@ -104,6 +109,8 @@ class _Field extends StatefulWidget {
   final TextInputAction? textInputAction;
   final bool readOnly;
   final VoidCallback? onTap;
+  final bool obscureText;
+  final int? maxLength;
 
   @override
   State<_Field> createState() => __FieldState();
@@ -150,12 +157,13 @@ class __FieldState extends State<_Field> {
           if (widget.label != null)
             FormFieldLabel(widget.label!, hasError: field.hasError),
           TextField(
+            obscureText: widget.obscureText,
             readOnly: widget.readOnly,
             onTap: widget.onTap,
             autofocus: widget.autofocus,
             controller: _controller,
             maxLines: widget.maxLines,
-            // validator: widget.validator,
+            maxLength: widget.maxLength,
             onChanged: (value) {
               field.didChange(value);
               widget.onChanged?.call(value);
@@ -166,6 +174,7 @@ class __FieldState extends State<_Field> {
             decoration: InputDecoration(
               errorText: field.errorText,
               hintText: widget.hintText,
+              counterText: widget.maxLength != null ? "" : null,
               suffixIcon: !widget.enabled
                   ? null
                   : widget.suffixWidgets != null
@@ -181,7 +190,7 @@ class __FieldState extends State<_Field> {
                             icon,
                           if (canShowResetButton)
                             ButtonComponent.iconOutlined(
-                              icon: Icons.clear_rounded,
+                              icon: Icon(Icons.clear_rounded),
                               onPressed: _controller.text.isEmpty
                                   ? null
                                   : () => reset(field.context),
