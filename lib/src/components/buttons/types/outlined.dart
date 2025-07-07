@@ -12,6 +12,7 @@ class OutlinedButtonComponent extends ButtonComponent {
     super.onPressed,
     required String text,
     super.icon,
+    super.foregroundColor,
   }) : super(text: text);
 
   @override
@@ -20,6 +21,14 @@ class OutlinedButtonComponent extends ButtonComponent {
       return _disabled(
         OutlinedButton.icon(
           onPressed: onPressed,
+          style: OutlinedButton.styleFrom(
+            foregroundColor: foregroundColor,
+            side: BorderSide(
+              color: onPressed == null
+                  ? context.theme.disabledColor
+                  : foregroundColor ?? context.colorScheme.primary,
+            ),
+          ),
           label: Text(text!),
           icon: icon,
         ),
@@ -27,7 +36,18 @@ class OutlinedButtonComponent extends ButtonComponent {
       );
     }
     return _disabled(
-      OutlinedButton(onPressed: onPressed, child: Text(text!)),
+      OutlinedButton(
+        onPressed: onPressed,
+        style: OutlinedButton.styleFrom(
+          foregroundColor: foregroundColor,
+          side: BorderSide(
+            color: onPressed == null
+                ? context.theme.disabledColor
+                : foregroundColor ?? context.colorScheme.primary,
+          ),
+        ),
+        child: Text(text!),
+      ),
       onPressed,
     );
   }

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:pointer_interceptor/pointer_interceptor.dart';
 
 class InfoDialog extends StatelessWidget {
   const InfoDialog({
@@ -10,28 +11,37 @@ class InfoDialog extends StatelessWidget {
     this.title,
     required this.content,
     required this.onClose,
+    this.platform,
   });
 
   final String? title;
   final String content;
   final VoidCallback onClose;
+  final TargetPlatform? platform;
 
   @override
   Widget build(BuildContext context) {
-    final isAndroid = Theme.of(context).platform == TargetPlatform.android;
+    final isAndroid = true;
+    // platform != null
+    // ? platform == TargetPlatform.android
+    // : Theme.of(context).platform == TargetPlatform.android;
     if (isAndroid) {
-      return AlertDialog(
-        title: Text(title ?? "Info"),
-        content: Text(content),
-        actions: [TextButton(onPressed: onClose, child: Text('Close'))],
+      return PointerInterceptor(
+        child: AlertDialog(
+          title: Text(title ?? "Info"),
+          content: Text(content),
+          actions: [TextButton(onPressed: onClose, child: Text('Close'))],
+        ),
       );
     }
-    return CupertinoAlertDialog(
-      title: Text(title ?? "Info"),
-      content: Text(content),
-      actions: [
-        CupertinoDialogAction(onPressed: onClose, child: Text('Close')),
-      ],
+    return PointerInterceptor(
+      child: CupertinoAlertDialog(
+        title: Text(title ?? "Info"),
+        content: Text(content),
+        actions: [
+          CupertinoDialogAction(onPressed: onClose, child: Text('Close')),
+        ],
+      ),
     );
   }
 
@@ -40,6 +50,7 @@ class InfoDialog extends StatelessWidget {
     String? title,
     bool dismissable = true,
     void Function(CancelFunc close)? onClose,
+    TargetPlatform? platform,
   }) {
     final completer = Completer<Null>();
     BotToast.showEnhancedWidget(
@@ -53,21 +64,20 @@ class InfoDialog extends StatelessWidget {
           completer.complete();
         }
       },
-      toastBuilder:
-          (cancelFunc) => InfoDialog(
-            title: title,
-            content: info,
-            onClose:
-                onClose != null
-                    ? () {
-                      completer.complete();
-                      onClose(cancelFunc);
-                    }
-                    : () {
-                      completer.complete();
-                      cancelFunc();
-                    },
-          ),
+      toastBuilder: (cancelFunc) => InfoDialog(
+        platform: platform,
+        title: title,
+        content: info,
+        onClose: onClose != null
+            ? () {
+                completer.complete();
+                onClose(cancelFunc);
+              }
+            : () {
+                completer.complete();
+                cancelFunc();
+              },
+      ),
     );
 
     return completer.future;

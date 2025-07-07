@@ -13,6 +13,8 @@ class UIApp extends StatelessWidget {
     this.themeMode,
     this.builder,
     this.localizationsDelegates,
+    this.supportedLocales,
+    this.locale,
   });
 
   final GoRouter routerConfig;
@@ -20,6 +22,8 @@ class UIApp extends StatelessWidget {
   final ThemeMode Function(BuildContext context)? themeMode;
   final TransitionBuilder? builder;
   final Iterable<LocalizationsDelegate<dynamic>>? localizationsDelegates;
+  final Iterable<Locale>? supportedLocales;
+  final Locale? locale;
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +38,8 @@ class UIApp extends StatelessWidget {
       darkTheme: appTheme.darkTheme,
       themeMode: themeMode,
       localizationsDelegates: localizationsDelegates,
+      supportedLocales: supportedLocales ?? const <Locale>[Locale('en', 'US')],
+      locale: locale,
       builder: (context, child) {
         if (builder != null) {
           child = builder!(context, child);

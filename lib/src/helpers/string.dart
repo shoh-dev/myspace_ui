@@ -32,10 +32,15 @@ extension StringHelpers on String {
       return null;
     }
   }
+
+  String capitalize() {
+    if (isEmpty) return this;
+    return '${this[0].toUpperCase()}${substring(1)}';
+  }
 }
 
 extension StringNullHelpers on String? {
-  bool get isNotEmptyAndNull {
-    return this != null && this!.isNotEmpty;
+  bool get isEmptyOrNull {
+    return this == null || this!.isEmpty || this! == 'null';
   }
 }

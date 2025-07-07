@@ -45,6 +45,7 @@ abstract class ButtonComponent extends StatelessWidget {
     VoidCallback? onPressed,
     required String text,
     Widget? icon,
+    Color? foregroundColor,
   }) = OutlinedButtonComponent;
 
   const factory ButtonComponent.primary({

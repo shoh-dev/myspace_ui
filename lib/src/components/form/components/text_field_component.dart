@@ -6,7 +6,7 @@ import 'package:myspace_ui/src/components/shared/disabled_component.dart';
 class TextFieldComponent extends FormField<String> {
   TextFieldComponent({
     super.key,
-    super.initialValue,
+    String? initialValue,
     super.enabled,
     super.validator,
     super.onSaved,
@@ -27,6 +27,7 @@ class TextFieldComponent extends FormField<String> {
     bool obscureText = false,
     int? maxLength,
   }) : super(
+         initialValue: initialValue ?? controller?.text,
          builder: (field) {
            return _Field(
              controller: controller,
@@ -37,7 +38,6 @@ class TextFieldComponent extends FormField<String> {
              label: label,
              canClear: canClear,
              enabled: enabled,
-             initialValue: initialValue,
              validator: validator,
              onSaved: onSaved,
              maxLines: maxLines,
@@ -135,9 +135,11 @@ class __FieldState extends State<_Field> {
     _controller = widget.controller ?? TextEditingController();
     _controller.text = widget.initialValue ?? widget.controller?.text ?? "";
     _controller.addListener(() {
-      field.didChange(_controller.text);
-      if (widget.canClear) {
-        setState(() {});
+      if (mounted) {
+        field.didChange(_controller.text);
+        if (widget.canClear) {
+          setState(() {});
+        }
       }
     });
     super.initState();

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart' as intl;
 import 'package:myspace_ui/src/components/text/text_component.dart';
 
 class CurrencyTextComponent extends TextComponent {
@@ -9,7 +10,10 @@ class CurrencyTextComponent extends TextComponent {
 
   @override
   Widget build(BuildContext context) {
-    //todo: format as currency
-    return Text(number.toString(), style: style);
+    final format = intl.NumberFormat.compactSimpleCurrency(
+      locale: 'en_US',
+      decimalDigits: 2,
+    );
+    return Text(format.format(number), style: style);
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myspace_ui/myspace_ui.dart';
+import 'package:pointer_interceptor/pointer_interceptor.dart';
 
 class PopupMenuButtonComponent<T> extends StatelessWidget {
   const PopupMenuButtonComponent({
@@ -29,26 +30,33 @@ class PopupMenuButtonComponent<T> extends StatelessWidget {
               value: item,
               height: 32,
               child: item.icon != null
-                  ? Theme(
-                      data: context.theme.copyWith(
-                        iconTheme: context.theme.iconTheme.copyWith(
-                          size: context.theme.popupMenuTheme.iconSize,
-                          color: item.foregroundColor,
+                  ? PointerInterceptor(
+                      child: Theme(
+                        data: context.theme.copyWith(
+                          iconTheme: context.theme.iconTheme.copyWith(
+                            size: context.theme.popupMenuTheme.iconSize,
+                            color: item.foregroundColor,
+                          ),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          spacing: 8,
+                          children: [
+                            item.icon!,
+                            Text(
+                              item.label,
+                              style: TextStyle(color: item.foregroundColor),
+                            ),
+                          ],
                         ),
                       ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        spacing: 8,
-                        children: [
-                          item.icon!,
-                          Text(
-                            item.label,
-                            style: TextStyle(color: item.foregroundColor),
-                          ),
-                        ],
-                      ),
                     )
-                  : Text(item.label),
+                  : PointerInterceptor(
+                      child: Text(
+                        item.label,
+                        style: TextStyle(color: item.foregroundColor),
+                      ),
+                    ),
             ),
             if (item != items.last) const PopupMenuDivider(height: 0),
           ],
