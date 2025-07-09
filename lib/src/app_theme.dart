@@ -239,6 +239,8 @@ class MySpaceTheme extends AppTheme {
 
   late final _appBarThemeDataLight = AppBarTheme(
     backgroundColor: _colorSchemeLight.surface,
+    color: _colorSchemeLight.surface,
+    elevation: 0,
   );
 
   //? AppBar Theme Data End
@@ -258,7 +260,7 @@ class MySpaceTheme extends AppTheme {
   late final _bottomNavigationBarThemeDataLight = BottomNavigationBarThemeData(
     backgroundColor: _colorSchemeLight.surface,
     selectedItemColor: _colorSchemeLight.primary,
-    unselectedItemColor: _colorSchemeLight.onSurface.withValues(alpha: 0.38),
+    unselectedItemColor: _colorSchemeLight.onSurfaceVariant,
   );
 
   //? Bottom Navigation Bar Theme Data End

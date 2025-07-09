@@ -1,6 +1,7 @@
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:myspace_ui/myspace_ui.dart';
 import 'package:pointer_interceptor/pointer_interceptor.dart';
 
 class LoadingDialog extends StatelessWidget {
@@ -18,11 +19,11 @@ class LoadingDialog extends StatelessWidget {
     if (isAndroid) {
       return PointerInterceptor(
         child: AlertDialog(
-          title: title != null ? Text(title!) : null,
-          content: SizedBox.fromSize(
-            size: Size.fromHeight(64),
-            child: Center(child: CircularProgressIndicator()),
-          ),
+          title: title != null
+              ? Text(title!, textAlign: TextAlign.center)
+              : null,
+          titleTextStyle: context.textTheme.titleSmall,
+          content: Center(child: CircularProgressIndicator()),
         ),
       );
     }
