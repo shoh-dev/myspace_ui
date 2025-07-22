@@ -6,13 +6,12 @@ import 'package:myspace_ui/src/components/text/text_component.dart';
 class HardCodedTextComponent extends TextComponent {
   final String text;
   final bool ignoreLog;
-  final TextStyle? style;
 
   HardCodedTextComponent(
     this.text, {
     super.key,
     this.ignoreLog = false,
-    this.style,
+    super.style,
   }) {
     if (!ignoreLog) {
       try {

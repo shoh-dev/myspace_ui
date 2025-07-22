@@ -17,23 +17,22 @@ class LoadingDialog extends StatelessWidget {
     // ? platform == TargetPlatform.android
     // : Theme.of(context).platform == TargetPlatform.android;
     if (isAndroid) {
-      return PointerInterceptor(
-        child: AlertDialog(
-          title: title != null
-              ? Text(title!, textAlign: TextAlign.center)
-              : null,
-          titleTextStyle: context.textTheme.titleSmall,
-          content: Center(child: CircularProgressIndicator()),
+      return AlertDialog(
+        title: title != null ? Text(title!, textAlign: TextAlign.center) : null,
+        titleTextStyle: context.textTheme.titleSmall,
+        content: SizedBox.square(
+          dimension: 48,
+          child: Align(
+            alignment: Alignment.center,
+            child: CircularProgressIndicator(),
+          ),
         ),
       );
     }
     return PointerInterceptor(
       child: CupertinoAlertDialog(
         title: title != null ? Text(title!) : null,
-        content: SizedBox.fromSize(
-          size: Size.fromHeight(32),
-          child: CupertinoActivityIndicator(),
-        ),
+        content: Center(child: CupertinoActivityIndicator()),
       ),
     );
   }

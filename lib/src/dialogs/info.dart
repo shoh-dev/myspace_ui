@@ -3,19 +3,20 @@ import 'dart:async';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:myspace_ui/src/helpers/string.dart';
 import 'package:pointer_interceptor/pointer_interceptor.dart';
 
 class InfoDialog extends StatelessWidget {
   const InfoDialog({
     super.key,
     this.title,
-    required this.content,
+    this.content,
     required this.onClose,
     this.platform,
   });
 
   final String? title;
-  final String content;
+  final String? content;
   final VoidCallback onClose;
   final TargetPlatform? platform;
 
@@ -29,7 +30,7 @@ class InfoDialog extends StatelessWidget {
       return PointerInterceptor(
         child: AlertDialog(
           title: Text(title ?? "Info"),
-          content: Text(content),
+          content: content.isEmptyOrNull ? null : Text(content!),
           actions: [TextButton(onPressed: onClose, child: Text('Close'))],
         ),
       );
@@ -37,7 +38,7 @@ class InfoDialog extends StatelessWidget {
     return PointerInterceptor(
       child: CupertinoAlertDialog(
         title: Text(title ?? "Info"),
-        content: Text(content),
+        content: content.isEmptyOrNull ? null : Text(content!),
         actions: [
           CupertinoDialogAction(onPressed: onClose, child: Text('Close')),
         ],
@@ -45,8 +46,8 @@ class InfoDialog extends StatelessWidget {
     );
   }
 
-  static Future<void> show(
-    String info, {
+  static Future<void> show({
+    String? info,
     String? title,
     bool dismissable = true,
     void Function(CancelFunc close)? onClose,

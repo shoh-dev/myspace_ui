@@ -3,14 +3,24 @@ import 'package:myspace_ui/src/components/text/text_component.dart';
 import 'package:intl/intl.dart';
 
 class NumberTextComponent extends TextComponent {
-  const NumberTextComponent(this.number, {super.key, this.style});
+  const NumberTextComponent(
+    this.number, {
+    super.textAlign,
+    super.key,
+    super.style,
+    super.builder,
+  });
 
   final num number;
-  final TextStyle? style;
 
   @override
   Widget build(BuildContext context) {
     final NumberFormat format = NumberFormat.decimalPattern();
-    return Text(format.format(number), style: style);
+    final formatted = format.format(number);
+    return Text(
+      builder?.call(formatted) ?? formatted,
+      style: style,
+      textAlign: textAlign,
+    );
   }
 }

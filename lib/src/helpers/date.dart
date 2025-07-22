@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 extension DateTimeHelpers on DateTime {
   bool isToday() {
     final now = DateTime.now();
@@ -27,5 +29,16 @@ extension DateTimeHelpers on DateTime {
     } else {
       return 'Good evening';
     }
+  }
+
+  bool isSameDay(DateTime? other) {
+    if (other == null) return false;
+    return year == other.year && month == other.month && day == other.day;
+  }
+}
+
+extension DateTimeFormatHelpers on DateTimeRange {
+  bool isSameDayAs(DateTimeRange other) {
+    return start.isSameDay(other.start) && end.isSameDay(other.end);
   }
 }

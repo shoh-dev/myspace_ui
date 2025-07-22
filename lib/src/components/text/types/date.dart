@@ -6,15 +6,13 @@ class DateTextComponent extends TextComponent {
   const DateTextComponent(
     this.date, {
     super.key,
-    this.style,
+    super.style,
     this.format,
-    this.builder,
+    super.builder,
   });
 
   final DateTime date;
   final DateFormat? format;
-  final TextStyle? style;
-  final String Function(String formattedDate)? builder;
 
   @override
   Widget build(BuildContext context) {

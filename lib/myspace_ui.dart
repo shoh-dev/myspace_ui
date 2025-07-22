@@ -24,3 +24,4 @@ export 'src/helpers/date.dart';
 export 'src/helpers/timeofday.dart';
 export 'src/helpers/string.dart';
 export 'src/helpers/go_router.dart';
+export 'src/ui_configuration.dart';

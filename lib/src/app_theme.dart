@@ -239,7 +239,7 @@ class MySpaceTheme extends AppTheme {
 
   late final _appBarThemeDataLight = AppBarTheme(
     backgroundColor: _colorSchemeLight.surface,
-    color: _colorSchemeLight.surface,
+    // color: _colorSchemeLight.surface,
     elevation: 0,
   );
 
@@ -278,7 +278,7 @@ class MySpaceTheme extends AppTheme {
   late final _dialogThemeDataLight = DialogThemeData(
     shape: RoundedRectangleBorder(borderRadius: _border.borderRadius),
     titleTextStyle: TextStyle(
-      fontSize: 20,
+      fontSize: 16,
       fontWeight: FontWeight.w500,
       color: _colorSchemeLight.onSurface,
     ),
