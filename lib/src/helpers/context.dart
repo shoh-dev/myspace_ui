@@ -37,9 +37,9 @@ extension BuildContextHelpers on BuildContext {
     ScaffoldMessenger.of(this).showSnackBar(SnackBar(content: Text(message)));
   }
 
-  void popOr([String? path]) {
+  void popOr<T>([String? path, T? result]) {
     if (canPop()) {
-      pop();
+      pop<T>(result);
     } else if (path != null) {
       go(path);
     }

@@ -15,7 +15,8 @@ class NumberTextComponent extends TextComponent {
 
   @override
   Widget build(BuildContext context) {
-    final NumberFormat format = NumberFormat.decimalPattern();
+    final NumberFormat format =
+        NumberFormat.decimalPattern(); //todo: add to ui_configuration.dart
     final formatted = format.format(number);
     return Text(
       builder?.call(formatted) ?? formatted,

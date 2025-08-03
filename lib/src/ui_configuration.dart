@@ -7,6 +7,7 @@ extension UIConfigurationHelper on BuildContext {
 }
 
 class UiConfiguration extends ChangeNotifier {
+  /// Currency format used for displaying currency values in [TextComponent.currency]
   NumberFormat _currencyFormat = NumberFormat.compactSimpleCurrency(
     locale: 'en_US',
     decimalDigits: 2,
@@ -15,6 +16,16 @@ class UiConfiguration extends ChangeNotifier {
   void changeCurrencyFormat(NumberFormat newFormat, [bool notify = true]) {
     if (_currencyFormat != newFormat) {
       _currencyFormat = newFormat;
+      if (notify) notifyListeners();
+    }
+  }
+
+  /// Date format used for displaying dates in [TextComponent.date]
+  DateFormat _dateFormat = DateFormat('yyyy-MM-dd');
+  DateFormat get dateFormat => _dateFormat;
+  void changeDateFormat(DateFormat newFormat, [bool notify = true]) {
+    if (_dateFormat != newFormat) {
+      _dateFormat = newFormat;
       if (notify) notifyListeners();
     }
   }

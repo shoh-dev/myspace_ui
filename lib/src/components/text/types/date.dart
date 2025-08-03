@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:myspace_ui/src/components/text/text_component.dart';
+import 'package:myspace_ui/src/ui_configuration.dart';
 
 class DateTextComponent extends TextComponent {
   const DateTextComponent(
@@ -16,7 +17,8 @@ class DateTextComponent extends TextComponent {
 
   @override
   Widget build(BuildContext context) {
-    final formattedDate = format?.format(date) ?? DateFormat.yMd().format(date);
+    final formattedDate =
+        format?.format(date) ?? context.uiConfiguration.dateFormat.format(date);
     return Text(builder?.call(formattedDate) ?? formattedDate, style: style);
   }
 }
