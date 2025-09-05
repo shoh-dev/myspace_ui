@@ -33,8 +33,12 @@ extension BuildContextHelpers on BuildContext {
   }
 
   //show a snackbar with a message
-  void showSnackbar(String message) {
-    ScaffoldMessenger.of(this).showSnackBar(SnackBar(content: Text(message)));
+  ScaffoldFeatureController<SnackBar, SnackBarClosedReason> showSnackbar(
+    String message,
+  ) {
+    return ScaffoldMessenger.of(
+      this,
+    ).showSnackBar(SnackBar(content: Text(message)));
   }
 
   void popOr<T>([String? path, T? result]) {

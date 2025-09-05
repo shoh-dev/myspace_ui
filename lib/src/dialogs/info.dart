@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:myspace_ui/myspace_ui.dart';
 import 'package:myspace_ui/src/helpers/string.dart';
 import 'package:pointer_interceptor/pointer_interceptor.dart';
 
@@ -31,7 +32,7 @@ class InfoDialog extends StatelessWidget {
         child: AlertDialog(
           title: Text(title ?? "Info"),
           content: content.isEmptyOrNull ? null : Text(content!),
-          actions: [TextButton(onPressed: onClose, child: Text('Close'))],
+          actions: [ButtonComponent.text(onPressed: onClose, text: 'Close')],
         ),
       );
     }

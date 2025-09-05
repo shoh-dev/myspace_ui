@@ -26,6 +26,7 @@ abstract class ButtonComponent extends StatelessWidget {
     this.shadowColor,
     this.isLoading = false,
     this.style,
+    this.maxLines,
   });
 
   final VoidCallback? onPressed;
@@ -40,12 +41,15 @@ abstract class ButtonComponent extends StatelessWidget {
   final double? elevation;
   final bool isLoading;
   final TextStyle? style;
+  final int? maxLines;
 
   const factory ButtonComponent.outlined({
     VoidCallback? onPressed,
     required String text,
     Widget? icon,
     Color? foregroundColor,
+    TextStyle? style,
+    int? maxLines,
   }) = OutlinedButtonComponent;
 
   const factory ButtonComponent.primary({
@@ -53,6 +57,10 @@ abstract class ButtonComponent extends StatelessWidget {
     required String text,
     Widget? icon,
     bool isLoading,
+    Color? backgroundColor,
+    Color? foregroundColor,
+    double? fontSize,
+    TextStyle? style,
   }) = PrimaryButtonComponent;
 
   const factory ButtonComponent.text({
@@ -74,6 +82,7 @@ abstract class ButtonComponent extends StatelessWidget {
     double? iconSize,
     EdgeInsets? padding,
     double? elevation,
+    bool isLoading,
   }) = IconButtonComponent;
 
   const factory ButtonComponent.destructive({
@@ -86,6 +95,7 @@ abstract class ButtonComponent extends StatelessWidget {
     VoidCallback? onPressed,
     required Widget icon,
     String? tooltip,
+    bool isLoading,
   }) = IconButtonComponentOutlined;
 
   const factory ButtonComponent.iconDesctructive({

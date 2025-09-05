@@ -18,6 +18,7 @@ class IconButtonComponent extends ButtonComponent {
     super.padding,
     super.elevation,
     super.shadowColor,
+    super.isLoading,
   }) : super(text: tooltip);
 
   @override
@@ -25,8 +26,10 @@ class IconButtonComponent extends ButtonComponent {
     return _disabled(
       IconButton(
         tooltip: text,
-        onPressed: onPressed,
-        icon: icon!,
+        onPressed: isLoading ? null : onPressed,
+        icon: isLoading
+            ? Center(child: CircularProgressIndicator.adaptive())
+            : icon!,
         style: IconButton.styleFrom(
           iconSize: iconSize,
           padding: padding ?? const EdgeInsets.all(4),
@@ -41,7 +44,7 @@ class IconButtonComponent extends ButtonComponent {
           ),
         ),
       ),
-      onPressed,
+      isLoading ? null : onPressed,
     );
   }
 }
@@ -87,6 +90,7 @@ class IconButtonComponentOutlined extends ButtonComponent {
     super.onPressed,
     super.foregroundColor,
     super.iconSize,
+    super.isLoading,
   }) : super(text: tooltip);
 
   @override
@@ -95,7 +99,9 @@ class IconButtonComponentOutlined extends ButtonComponent {
       IconButton(
         tooltip: text,
         onPressed: onPressed,
-        icon: icon!,
+        icon: isLoading
+            ? Center(child: CircularProgressIndicator.adaptive())
+            : icon!,
         isSelected: true,
         style: IconButton.styleFrom(
           iconSize: iconSize,

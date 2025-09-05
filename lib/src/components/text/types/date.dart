@@ -19,6 +19,10 @@ class DateTextComponent extends TextComponent {
   Widget build(BuildContext context) {
     final formattedDate =
         format?.format(date) ?? context.uiConfiguration.dateFormat.format(date);
-    return Text(builder?.call(formattedDate) ?? formattedDate, style: style);
+    return Text(
+      builder?.call(formattedDate) ?? formattedDate,
+      key: key,
+      style: style,
+    );
   }
 }

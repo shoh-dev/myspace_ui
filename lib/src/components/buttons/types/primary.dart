@@ -13,6 +13,10 @@ class PrimaryButtonComponent extends ButtonComponent {
     required String text,
     super.icon,
     super.isLoading,
+    super.backgroundColor,
+    super.foregroundColor,
+    super.fontSize,
+    super.style,
   }) : super(text: text);
 
   @override
@@ -21,6 +25,11 @@ class PrimaryButtonComponent extends ButtonComponent {
       return _disabled(
         FilledButton(
           onPressed: null,
+          style: FilledButton.styleFrom(
+            backgroundColor: backgroundColor,
+            foregroundColor: foregroundColor,
+            textStyle: style ?? TextStyle(fontSize: fontSize),
+          ),
           child: CircularProgressIndicator.adaptive(),
         ),
         null,
@@ -28,12 +37,29 @@ class PrimaryButtonComponent extends ButtonComponent {
     }
     if (icon != null) {
       return _disabled(
-        FilledButton.icon(onPressed: onPressed, label: Text(text!), icon: icon),
+        FilledButton.icon(
+          style: FilledButton.styleFrom(
+            backgroundColor: backgroundColor,
+            foregroundColor: foregroundColor,
+            textStyle: style ?? TextStyle(fontSize: fontSize),
+          ),
+          onPressed: onPressed,
+          label: Text(text!),
+          icon: icon,
+        ),
         onPressed,
       );
     }
     return _disabled(
-      FilledButton(onPressed: onPressed, child: Text(text!)),
+      FilledButton(
+        style: FilledButton.styleFrom(
+          backgroundColor: backgroundColor,
+          foregroundColor: foregroundColor,
+          textStyle: style ?? TextStyle(fontSize: fontSize),
+        ),
+        onPressed: onPressed,
+        child: Text(text!),
+      ),
       onPressed,
     );
   }

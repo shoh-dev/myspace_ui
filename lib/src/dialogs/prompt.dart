@@ -44,16 +44,11 @@ class PromptDialog extends StatelessWidget {
               onPressed: onLeftClick,
               text: leftButtonText ?? "No",
             ),
-            if (isDestructive)
-              ButtonComponent.destructive(
-                onPressed: onRightClick,
-                text: rightButtonText ?? "Yes",
-              )
-            else
-              ButtonComponent.text(
-                onPressed: onRightClick,
-                text: rightButtonText ?? "Yes",
-              ),
+            ButtonComponent.text(
+              onPressed: onRightClick,
+              text: rightButtonText ?? "Yes",
+              foregroundColor: isDestructive ? context.error : null,
+            ),
           ],
         ),
       );

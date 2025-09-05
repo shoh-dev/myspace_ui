@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:myspace_ui/src/components/buttons/button_component.dart';
 import 'package:pointer_interceptor/pointer_interceptor.dart';
 
 class ErrorDialog extends StatelessWidget {
@@ -34,7 +35,10 @@ class ErrorDialog extends StatelessWidget {
           content: Text(content),
           actions: [
             if (actionCallback != null && actionText != null)
-              TextButton(onPressed: actionCallback, child: Text(actionText!)),
+              ButtonComponent.text(
+                onPressed: actionCallback,
+                text: actionText!,
+              ),
           ],
         ),
       );

@@ -15,25 +15,31 @@ abstract class TextComponent extends StatelessWidget {
 
   factory TextComponent.hardCoded(
     String text, {
+    Key? key,
     bool ignoreLog,
     TextStyle? style,
   }) = HardCodedTextComponent;
 
   const factory TextComponent.number(
     num number, {
+    Key? key,
     TextStyle? style,
     TextAlign? textAlign,
     String Function(String formattedNumber)? builder,
   }) = NumberTextComponent;
 
-  const factory TextComponent.any(dynamic value, {TextStyle? style}) =
+  const factory TextComponent.any(dynamic value, {Key? key, TextStyle? style}) =
       AnyTextComponent;
 
-  const factory TextComponent.currency(num number, {TextStyle? style}) =
-      CurrencyTextComponent;
+  const factory TextComponent.currency(
+    num number, {
+    Key? key,
+    TextStyle? style,
+  }) = CurrencyTextComponent;
 
   const factory TextComponent.date(
     DateTime date, {
+    Key? key,
     TextStyle? style,
     DateFormat? format,
     String Function(String formattedDate)? builder,

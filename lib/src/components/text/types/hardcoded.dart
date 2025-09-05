@@ -32,6 +32,6 @@ class HardCodedTextComponent extends TextComponent {
 
   @override
   Widget build(BuildContext context) {
-    return Text(text, style: style);
+    return Text(text, key: key, style: style);
   }
 }

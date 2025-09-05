@@ -29,4 +29,14 @@ class UiConfiguration extends ChangeNotifier {
       if (notify) notifyListeners();
     }
   }
+
+  /// Number format
+  NumberFormat _numberFormat = NumberFormat.decimalPattern();
+  NumberFormat get numberFormat => _numberFormat;
+  void changeNumberFormat(NumberFormat newFormat, [bool notify = true]) {
+    if (_numberFormat != newFormat) {
+      _numberFormat = newFormat;
+      if (notify) notifyListeners();
+    }
+  }
 }

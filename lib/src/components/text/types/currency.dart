@@ -10,6 +10,6 @@ class CurrencyTextComponent extends TextComponent {
   @override
   Widget build(BuildContext context) {
     final currencyFormat = context.uiConfiguration.currencyFormat;
-    return Text(currencyFormat.format(number), style: style);
+    return Text(currencyFormat.format(number), key: key, style: style);
   }
 }

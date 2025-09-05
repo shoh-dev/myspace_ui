@@ -8,6 +8,6 @@ final class AnyTextComponent extends TextComponent {
 
   @override
   Widget build(BuildContext context) {
-    return Text(value.toString(), style: style);
+    return Text(value.toString(), key: key, style: style);
   }
 }

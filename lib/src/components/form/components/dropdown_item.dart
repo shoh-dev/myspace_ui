@@ -24,4 +24,9 @@ class DropdownItem<T> {
 
   @override
   int get hashCode => value.hashCode;
+
+  @override
+  String toString() {
+    return 'DropdownItem(value: $value, label: $label)';
+  }
 }

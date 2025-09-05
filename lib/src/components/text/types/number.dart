@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:myspace_ui/src/components/text/text_component.dart';
-import 'package:intl/intl.dart';
+import 'package:myspace_ui/myspace_ui.dart';
 
 class NumberTextComponent extends TextComponent {
   const NumberTextComponent(
@@ -15,11 +14,10 @@ class NumberTextComponent extends TextComponent {
 
   @override
   Widget build(BuildContext context) {
-    final NumberFormat format =
-        NumberFormat.decimalPattern(); //todo: add to ui_configuration.dart
-    final formatted = format.format(number);
+    final formatted = context.uiConfiguration.numberFormat.format(number);
     return Text(
       builder?.call(formatted) ?? formatted,
+      key: key,
       style: style,
       textAlign: textAlign,
     );

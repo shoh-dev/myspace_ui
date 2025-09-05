@@ -16,6 +16,7 @@ class DropdownComponent<T> extends FormField<DropdownItem<T>> {
     String? label,
     String? helperText,
     double? menuWidth,
+    Color? dropdownColor,
   }) : super(
          builder: (field) {
            field.didChange(initialValue);
@@ -28,6 +29,7 @@ class DropdownComponent<T> extends FormField<DropdownItem<T>> {
              initialValue: initialValue,
              helperText: helperText,
              menuWidth: menuWidth,
+             dropdownColor: dropdownColor,
            );
          },
        ) {
@@ -59,6 +61,7 @@ class _Menu<T> extends StatefulWidget {
     this.initialValue,
     this.helperText,
     this.menuWidth,
+    this.dropdownColor,
   });
 
   final FormFieldState<DropdownItem<T>> field;
@@ -69,6 +72,7 @@ class _Menu<T> extends StatefulWidget {
   final DropdownItem<T>? initialValue;
   final String? helperText;
   final double? menuWidth;
+  final Color? dropdownColor;
 
   @override
   State<_Menu> createState() => __MenuState<T>();
@@ -121,6 +125,7 @@ class __MenuState<T> extends State<_Menu<T>> {
                   ),
                 ),
             ],
+            dropdownColor: widget.dropdownColor,
             value:
                 widget.items.any(
                   (element) => element.value == widget.initialValue?.value,
