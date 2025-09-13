@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
 extension BuildContextHelpers on BuildContext {
   bool isMobilePlatform() {
@@ -47,5 +48,10 @@ extension BuildContextHelpers on BuildContext {
     } else if (path != null) {
       go(path);
     }
+  }
+
+  GlobalKey<NavigatorState> get navigatorKey {
+    final router = read<GoRouter>();
+    return router.routerDelegate.navigatorKey;
   }
 }

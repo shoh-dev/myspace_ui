@@ -26,6 +26,8 @@ class TextFieldComponent extends FormField<String> {
     VoidCallback? onTap,
     bool obscureText = false,
     int? maxLength,
+    List<TextInputFormatter>? inputFormatters,
+    Widget? prefixIcon,
   }) : super(
          initialValue: initialValue ?? controller?.text,
          builder: (field) {
@@ -49,6 +51,9 @@ class TextFieldComponent extends FormField<String> {
              readOnly: readOnly ?? false,
              obscureText: obscureText,
              maxLength: maxLength,
+             inputFormatters: inputFormatters,
+             initialValue: initialValue,
+             prefixIcon: prefixIcon,
            );
          },
        );
@@ -89,6 +94,8 @@ class _Field extends StatefulWidget {
     this.onTap,
     this.obscureText = false,
     this.maxLength,
+    this.inputFormatters,
+    this.prefixIcon,
   });
 
   final FormFieldState<String> field;
@@ -111,6 +118,8 @@ class _Field extends StatefulWidget {
   final VoidCallback? onTap;
   final bool obscureText;
   final int? maxLength;
+  final List<TextInputFormatter>? inputFormatters;
+  final Widget? prefixIcon;
 
   @override
   State<_Field> createState() => __FieldState();
@@ -174,6 +183,7 @@ class __FieldState extends State<_Field> {
             keyboardType: widget.keyboardType,
             textInputAction: widget.textInputAction,
             decoration: InputDecoration(
+              prefixIcon: widget.prefixIcon,
               errorText: field.errorText,
               hintText: widget.hintText,
               counterText: widget.maxLength != null ? "" : null,
@@ -203,6 +213,7 @@ class __FieldState extends State<_Field> {
                     )
                   : null,
             ),
+            inputFormatters: widget.inputFormatters,
             enabled: widget.enabled,
           ),
         ],
