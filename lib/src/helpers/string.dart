@@ -37,6 +37,10 @@ extension StringHelpers on String {
     if (isEmpty) return this;
     return '${this[0].toUpperCase()}${substring(1)}';
   }
+
+  String cleanUp() {
+    return trim().replaceAll(' ', '');
+  }
 }
 
 extension StringNullHelpers on String? {
