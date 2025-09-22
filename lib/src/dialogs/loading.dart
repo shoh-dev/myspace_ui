@@ -1,8 +1,6 @@
 import 'package:bot_toast/bot_toast.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:myspace_ui/myspace_ui.dart';
-import 'package:pointer_interceptor/pointer_interceptor.dart';
 
 class LoadingDialog extends StatelessWidget {
   const LoadingDialog({super.key, this.title, this.platform});
@@ -29,12 +27,12 @@ class LoadingDialog extends StatelessWidget {
         ),
       );
     }
-    return PointerInterceptor(
-      child: CupertinoAlertDialog(
-        title: title != null ? Text(title!) : null,
-        content: Center(child: CupertinoActivityIndicator()),
-      ),
-    );
+    // return PointerInterceptor(
+    //   child: CupertinoAlertDialog(
+    //     title: title != null ? Text(title!) : null,
+    //     content: Center(child: CupertinoActivityIndicator()),
+    //   ),
+    // );
   }
 
   static CancelFunc show({

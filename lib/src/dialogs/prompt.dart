@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:bot_toast/bot_toast.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:myspace_ui/myspace_ui.dart';
 import 'package:pointer_interceptor/pointer_interceptor.dart';
@@ -53,23 +52,23 @@ class PromptDialog extends StatelessWidget {
         ),
       );
     }
-    return PointerInterceptor(
-      child: CupertinoAlertDialog(
-        title: Text(title ?? "Attention"),
-        content: Text(content),
-        actions: [
-          CupertinoDialogAction(
-            onPressed: onLeftClick,
-            child: Text(leftButtonText ?? "No"),
-          ),
-          CupertinoDialogAction(
-            onPressed: onRightClick,
-            isDestructiveAction: isDestructive,
-            child: Text(rightButtonText ?? "Yes"),
-          ),
-        ],
-      ),
-    );
+    // return PointerInterceptor(
+    //   child: CupertinoAlertDialog(
+    //     title: Text(title ?? "Attention"),
+    //     content: Text(content),
+    //     actions: [
+    //       CupertinoDialogAction(
+    //         onPressed: onLeftClick,
+    //         child: Text(leftButtonText ?? "No"),
+    //       ),
+    //       CupertinoDialogAction(
+    //         onPressed: onRightClick,
+    //         isDestructiveAction: isDestructive,
+    //         child: Text(rightButtonText ?? "Yes"),
+    //       ),
+    //     ],
+    //   ),
+    // );
   }
 
   static Future<bool?> show(
