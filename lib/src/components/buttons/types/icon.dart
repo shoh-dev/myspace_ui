@@ -28,7 +28,9 @@ class IconButtonComponent extends ButtonComponent {
         tooltip: text,
         onPressed: isLoading ? null : onPressed,
         icon: isLoading
-            ? Center(child: CircularProgressIndicator.adaptive())
+            ? Center(
+                child: FittedBox(child: CircularProgressIndicator.adaptive()),
+              )
             : icon!,
         style: IconButton.styleFrom(
           iconSize: iconSize,
@@ -100,7 +102,9 @@ class IconButtonComponentOutlined extends ButtonComponent {
         tooltip: text,
         onPressed: onPressed,
         icon: isLoading
-            ? Center(child: CircularProgressIndicator.adaptive())
+            ? Center(
+                child: FittedBox(child: CircularProgressIndicator.adaptive()),
+              )
             : icon!,
         isSelected: true,
         style: IconButton.styleFrom(

@@ -30,7 +30,9 @@ class PrimaryButtonComponent extends ButtonComponent {
             foregroundColor: foregroundColor,
             textStyle: style ?? TextStyle(fontSize: fontSize),
           ),
-          child: CircularProgressIndicator.adaptive(),
+          child: Center(
+            child: FittedBox(child: CircularProgressIndicator.adaptive()),
+          ),
         ),
         null,
       );

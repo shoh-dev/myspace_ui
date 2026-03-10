@@ -28,6 +28,7 @@ class TextFieldComponent extends FormField<String> {
     int? maxLength,
     List<TextInputFormatter>? inputFormatters,
     Widget? prefixIcon,
+    bool autocorrect = false,
   }) : super(
          initialValue: initialValue ?? controller?.text,
          builder: (field) {
@@ -54,6 +55,7 @@ class TextFieldComponent extends FormField<String> {
              inputFormatters: inputFormatters,
              initialValue: initialValue,
              prefixIcon: prefixIcon,
+             autocorrect: autocorrect,
            );
          },
        );
@@ -96,6 +98,7 @@ class _Field extends StatefulWidget {
     this.maxLength,
     this.inputFormatters,
     this.prefixIcon,
+    this.autocorrect = false,
   });
 
   final FormFieldState<String> field;
@@ -120,6 +123,7 @@ class _Field extends StatefulWidget {
   final int? maxLength;
   final List<TextInputFormatter>? inputFormatters;
   final Widget? prefixIcon;
+  final bool autocorrect;
 
   @override
   State<_Field> createState() => __FieldState();
@@ -168,6 +172,7 @@ class __FieldState extends State<_Field> {
           if (widget.label != null)
             FormFieldLabel(widget.label!, hasError: field.hasError),
           TextField(
+            autocorrect: widget.autocorrect,
             obscureText: widget.obscureText,
             readOnly: widget.readOnly,
             onTap: widget.onTap,

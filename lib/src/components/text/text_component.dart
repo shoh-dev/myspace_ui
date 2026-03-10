@@ -35,6 +35,7 @@ abstract class TextComponent extends StatelessWidget {
     num number, {
     Key? key,
     TextStyle? style,
+    String Function(String formattedNumber)? builder,
   }) = CurrencyTextComponent;
 
   const factory TextComponent.date(
